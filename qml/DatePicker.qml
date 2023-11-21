@@ -10,11 +10,11 @@ ColumnLayout {
 
     signal dateSelected(date selDate);
 
+
     Component.onCompleted:
     {
         for (let i = 0; i < 200; i++) {
             yearmodel.append({"year":1900+i});
-
         }
     }
 
@@ -34,6 +34,7 @@ ColumnLayout {
         {
             id:prevmonth
             Layout.alignment: Qt.AlignRight
+            visible:!yearChooser.checked
             text:"prev"
             onClicked:
             {
@@ -50,8 +51,6 @@ ColumnLayout {
                 }
                 monthview.sDate.setMonth(m);
 
-
-
             }
         }
         Button
@@ -59,6 +58,7 @@ ColumnLayout {
             id:nextmonth
             Layout.alignment: Qt.AlignRight
             text:"next"
+            visible:!yearChooser.checked
             onClicked:
             {
                 let m=(monthview.sDate.getMonth()+1)%12;
@@ -102,12 +102,11 @@ ColumnLayout {
                 year:monthview.sDate.getFullYear()
                 month: index
                 onClicked: (date)=>
-                {
-                    console.log(date);
-                    monthview.sDate=date;
-                    root.selDate=monthview.sDate;
-                    root.dateSelected(selDate);
-                }
+                           {
+                               monthview.sDate=date;
+                               root.selDate=monthview.sDate;
+                               root.dateSelected(selDate);
+                           }
             }
 
         }
@@ -121,21 +120,27 @@ ColumnLayout {
         Layout.fillWidth: true
         Layout.fillHeight: true
         Layout.maximumWidth: 400
-        model: yearmodel
+        Component.onCompleted: positionViewAtIndex(monthview.sDate.getFullYear()-1900, GridView.Beginning)
+        //currentIndex: monthview.sDate.getFullYear()-1900
+        model:yearmodel
         visible:yearChooser.checked
+        cellWidth:yearSelector.width*0.3333
+        cellHeight:yearSelector.height*0.1666667
+
         clip:true
         ScrollBar.vertical: ScrollBar { }
         delegate:Button {
             text:year
             onClicked:{
-                root.initDate.setFullYear(year);
+                monthview.sDate.setFullYear(year);
             }
-            highlighted:(year===root.initDate.getFullYear())
+            highlighted:(year===monthview.sDate.getFullYear())
         }
-
         ListModel {
             id: yearmodel
         }
+
+
     }
 
 }
