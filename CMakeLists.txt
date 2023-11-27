@@ -33,7 +33,7 @@ include(GNUInstallDirs)
 FetchContent_Declare(
 	MyDesigns
 	GIT_REPOSITORY https://github.com/EddyTheCo/MyDesigns.git
-	GIT_TAG v0.4.1
+        GIT_TAG improvements
 	FIND_PACKAGE_ARGS 0.4 CONFIG
 	)
 FetchContent_MakeAvailable(MyDesigns)
@@ -70,6 +70,8 @@ if (Qt6_FOUND)
 
 	target_link_libraries(DTPickers PUBLIC Qt6::Gui Qt6::Quick Qt6::Core MyDesigns 
 		$<$<STREQUAL:$<TARGET_PROPERTY:MyDesigns,TYPE>,STATIC_LIBRARY>:MyDesignsplugin>)
+
+
 if(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME AND BUILD_EXAMPLES)
         add_subdirectory(Examples)
 endif()
