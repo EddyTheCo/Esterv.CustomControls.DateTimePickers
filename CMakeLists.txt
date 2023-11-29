@@ -54,6 +54,9 @@ if (Qt6_FOUND)
                 OUTPUT_TARGETS out_targets_var
                 OUTPUT_DIRECTORY
 		${CMAKE_BINARY_DIR}/DTPickers
+                RESOURCES
+                   "fonts/Roboto/Roboto-Light.ttf"
+                   "fonts/Roboto/Roboto-Regular.ttf"
                 )
 
 	qt6_add_shaders(DTPickers "esterVtech.com.imports.DateTimePickers.shaders"
