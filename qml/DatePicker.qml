@@ -11,7 +11,14 @@ ColumnLayout {
 
     signal dateSelected(date selDate);
 
-
+    FontLoader {
+        id: lFont
+        source: "qrc:/esterVtech.com/imports/DTPickers/fonts/Roboto/Roboto-Light.ttf"
+    }
+    FontLoader {
+        id: rFont
+        source: "qrc:/esterVtech.com/imports/DTPickers/fonts/Roboto/Roboto-Regular.ttf"
+    }
     Component.onCompleted:
     {
         for (let i = 0; i < 200; i++) {
@@ -51,6 +58,8 @@ ColumnLayout {
                 horizontalAlignment: Text.AlignLeft
                 fontSizeMode:Text.Fit
                 font.pixelSize: 80
+                font.family: rFont.font.family
+                font.weight: rFont.font.weight
                 height:yearChooser.height
                 width:yearChooser.width*0.8
             }
@@ -97,7 +106,7 @@ ColumnLayout {
             Rectangle
             {
                 id:prevmonth
-                height:yearlabel.height
+                height:yearlabel.height*0.6
                 width:height
                 radius:width
                 color:prevarea.containsMouse?CustomStyle.midColor1:"transparent"
@@ -109,7 +118,7 @@ ColumnLayout {
                     id:prevshader
                     property var src:prevmonth
                     property color fcolor:CustomStyle.frontColor1
-                    height:parent.height*0.8
+                    height:parent.height*0.7
                     width:height
                     anchors.verticalCenter:  parent.verticalCenter
                     anchors.left: parent.left
@@ -149,7 +158,7 @@ ColumnLayout {
                 anchors.leftMargin:  parent.width*0.1
                 anchors.left:  parent.horizontalCenter
                 anchors.verticalCenter: parent.verticalCenter
-                height:yearlabel.height
+                height:prevmonth.height
                 width:height
                 radius:width
                 color:nextarea.containsMouse?CustomStyle.midColor1:"transparent"
@@ -158,7 +167,7 @@ ColumnLayout {
                     id:nextshader
                     property var src:nextmonth
                     property color fcolor:CustomStyle.frontColor1
-                    height:parent.height*0.8
+                    height:parent.height*0.7
                     width:height
                     anchors.verticalCenter:  parent.verticalCenter
                     anchors.right: parent.right
@@ -217,6 +226,8 @@ ColumnLayout {
                     text: shortName
                     fontSizeMode:Text.Fit
                     font.pixelSize: 80
+                    font.family: lFont.font.family
+                    font.weight: lFont.font.weight
                     color: CustomStyle.midColor1
                     horizontalAlignment: Text.AlignHCenter
                     verticalAlignment: Text.AlignVCenter
@@ -251,7 +262,7 @@ ColumnLayout {
                             width:Math.min(parent.width,parent.height)
                             height:width
                             radius: width
-                            color: (model.month===control.selDate.getMonth()&&model.year===control.selDate.getFullYear()&&model.day===control.selDate.getDate())?CustomStyle.backColor3:(dayarea.containsMouse?CustomStyle.midColor1:"transparent")
+                            color: (model.month===control.selDate.getMonth()&&model.year===control.selDate.getFullYear()&&model.day===control.selDate.getDate())?CustomStyle.frontColor2:(dayarea.containsMouse?CustomStyle.midColor1:"transparent")
 
                             Text{
                                 id:daytext
@@ -310,7 +321,7 @@ ColumnLayout {
             width:yearSelector.cellWidth*0.6
             height:yearSelector.cellHeight*0.9
             radius:height*0.5
-            color: (year===monthview.sDate.getFullYear())?CustomStyle.backColor3:(yeararea.containsMouse)?CustomStyle.midColor1:"transparent"
+            color: (year===monthview.sDate.getFullYear())?CustomStyle.frontColor2:(yeararea.containsMouse)?CustomStyle.midColor1:"transparent"
             Text{
                 id:yeartext
                 text:year
@@ -321,6 +332,8 @@ ColumnLayout {
                 verticalAlignment: Text.AlignVCenter
                 fontSizeMode:Text.Fit
                 font.pixelSize: parent.height*0.5
+                font.family: lFont.font.family
+                font.weight: lFont.font.weight
             }
 
 
