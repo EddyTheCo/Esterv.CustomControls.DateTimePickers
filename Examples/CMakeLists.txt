@@ -2,6 +2,7 @@ cmake_minimum_required(VERSION 3.11)
 
 foreach(example "datepickerExample"
 		"timepickerExample"
+                "datetimepickerExample"
 		)
 	qt_add_executable(${example} ${example}.cpp )
 

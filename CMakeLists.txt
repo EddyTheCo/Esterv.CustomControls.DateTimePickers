@@ -47,8 +47,10 @@ if (Qt6_FOUND)
 		URI  DTPickers
                 VERSION 1.0
                 QML_FILES
-		qml/DatePicker.qml
-		qml/TimePicker.qml
+                "qml/DatePicker.qml"
+                "qml/TimePicker.qml"
+                "qml/DateTimePicker.qml"
+                "qml/ShowDateTime.qml"
                 RESOURCE_PREFIX
                 "/esterVtech.com/imports"
                 OUTPUT_TARGETS out_targets_var
@@ -59,13 +61,13 @@ if (Qt6_FOUND)
                    "fonts/Roboto/Roboto-Regular.ttf"
                 )
 
-	qt6_add_shaders(DTPickers "esterVtech.com.imports.DateTimePickers.shaders"
+        qt6_add_shaders(DTPickers "esterVtech.com.imports.DTPickers.shaders"
                 BATCHABLE
                 PRECOMPILE
                 OPTIMIZED
                 OUTPUT_TARGETS out_targets_var2
                 PREFIX
-		"/esterVtech.com/imports/DateTimePickers"
+                "/esterVtech.com/imports/DTPickers"
                 FILES
                 "frag/clock.frag"
                 "frag/calendar.frag"

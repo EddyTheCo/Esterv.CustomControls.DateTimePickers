@@ -1,15 +1,14 @@
-import QtQuick.Layouts
 import QtQuick.Controls
 import QtQuick
 import QtQml
 import MyDesigns
 
-ColumnLayout {
+Item {
     id:control
     property alias initDate: monthview.sDate;
-    property date selDate: new Date();
+    property date selDate;
+    property alias chooseYear:yearChooser.checked
 
-    signal dateSelected(date selDate);
 
     FontLoader {
         id: lFont
@@ -29,11 +28,8 @@ ColumnLayout {
     Item
     {
         id:calendarMenu
-        Layout.fillWidth: true;
-        Layout.fillHeight: true;
-        Layout.preferredHeight:  control.height*0.07
-        Layout.minimumHeight: 30
-        Layout.minimumWidth: 200
+        height:  control.height*0.07
+        width:control.width
         Rectangle
         {
             id: yearChooser
@@ -205,14 +201,12 @@ ColumnLayout {
     Item
     {
         id:calendar
-        Layout.fillWidth: true
-        Layout.fillHeight: true
-        Layout.preferredHeight:  control.height*0.93
-        Layout.minimumHeight: 200
-        Layout.minimumWidth: 200
+
+        height:control.height*0.93
+        width:control.width
         opacity:1.0 - shaderyearChooser.iTime
         visible: shaderyearChooser.iTime<0.8
-
+        anchors.top: calendarMenu.bottom
 
         DayOfWeekRow {
             id:dayOfWeek
@@ -284,8 +278,7 @@ ColumnLayout {
                                 onClicked: ()=>
                                            {
                                                monthview.sDate=dayrect.model.date;
-                                               control.selDate=monthview.sDate;
-                                               control.dateSelected(selDate);
+                                               control.selDate=dayrect.model.date;
                                            }
                             }
                         }
@@ -301,15 +294,13 @@ ColumnLayout {
 
     GridView {
         id:yearSelector
-        Layout.fillWidth: true
-        Layout.fillHeight: true
-        Layout.preferredHeight:  control.height*0.93
-        Layout.minimumHeight: 200
-        Layout.minimumWidth: 200
+        height:   control.height*0.93
+        width: control.width
+        anchors.top: calendarMenu.bottom
         opacity: shaderyearChooser.iTime
         visible: shaderyearChooser.iTime>0.8
         Component.onCompleted: positionViewAtIndex(monthview.sDate.getFullYear()-1900, GridView.Beginning)
-        //currentIndex: monthview.sDate.getFullYear()-1900
+
         model:yearmodel
 
         cellWidth:yearSelector.width*0.3333

@@ -7,7 +7,10 @@ import MyDesigns
 Item
 {
     id:control
-    property date selDate: new Date();
+    property int hour;
+    property int minute;
+    property alias chooseHour:watchface.isHourSelection
+
     FontLoader {
         id: lFont
         source: "qrc:/esterVtech.com/imports/DTPickers/fonts/Roboto/Roboto-Light.ttf"
@@ -46,6 +49,7 @@ Item
             color:CustomStyle.frontColor2
             width:watchface.width*0.02
             height:watchface.width*0.5
+            radius:width
             transform: Rotation { origin.x: arm.width*0.5; origin.y: arm.height; angle: watchface.selAngle}
             anchors.left: centerDot.Center
             anchors.horizontalCenter:  watchface.horizontalCenter
@@ -105,14 +109,14 @@ Item
                                {
                                    watchface.selAngleHour=90+180*(Math.atan((mouse.y-watchface.width*0.5)/(mouse.x-watchface.width*0.5))/Math.PI)+
                                    ((mouse.x-watchface.width*0.5<0)?180:0);
-                                   control.selDate.setHours(Math.round(12.0*watchface.selAngleHour/360.0));
+                                   control.hour=Math.round(12.0*watchface.selAngleHour/360.0)+((control.hour>12)?12:0);
                                    watchface.isHourSelection=false;
                                }
                                else
                                {
                                    watchface.selAngleMinute=90+180*(Math.atan((mouse.y-watchface.width*0.5)/(mouse.x-watchface.width*0.5))/Math.PI)+
                                    ((mouse.x-watchface.width*0.5<0)?180:0);
-                                   control.selDate.setMinutes(Math.round(60.0*watchface.selAngleMinute/360.0)%60);
+                                   control.minute=Math.round(60.0*watchface.selAngleMinute/360.0)%60;
                                }
 
 
@@ -226,16 +230,16 @@ Item
             width:am.contentWidth
             height:am.contentHeight
             radius:Math.min(width,height)*0.1
-            color:control.selDate.getHours()>=12&&amarea.containsMouse?CustomStyle.midColor1:"transparent"
+            color:control.hour>=12&&amarea.containsMouse?CustomStyle.midColor1:"transparent"
             MouseArea
             {
                 id:amarea
                 anchors.fill: parent
                 hoverEnabled : true
-                enabled:control.selDate.getHours()>=12
+                enabled:control.hour>=12
                 onClicked:
                 {
-                    control.selDate.setHours(control.selDate.getHours()-12);
+                    control.hour-=12;
                 }
             }
         }
@@ -245,7 +249,7 @@ Item
             id:am
             height:amOrPm.height*0.6
             width:amOrPm.width*0.5
-            color:control.selDate.getHours()<12||amarea.containsMouse?CustomStyle.frontColor1:CustomStyle.midColor1
+            color:control.hour<12||amarea.containsMouse?CustomStyle.frontColor1:CustomStyle.midColor1
 
             anchors.rightMargin:  parent.width*0.05
             anchors.right:   parent.horizontalCenter
@@ -255,8 +259,8 @@ Item
             horizontalAlignment: Text.AlignRight
             fontSizeMode:Text.Fit
             font.pixelSize: 80
-            font.family: (control.selDate.getHours()<12)?rFont.font.family:lFont.font.family
-            font.weight: (control.selDate.getHours()<12)?rFont.font.weight:lFont.font.weight
+            font.family: (control.hour<12)?rFont.font.family:lFont.font.family
+            font.weight: (control.hour<12)?rFont.font.weight:lFont.font.weight
             text:new Date('December 17, 1995 03:24:00').toLocaleTimeString(Qt.locale(),"a");
 
 
@@ -274,16 +278,16 @@ Item
             width:pm.contentWidth
             height:pm.contentHeight
             radius:Math.min(width,height)*0.1
-            color:control.selDate.getHours()<12&&pmarea.containsMouse?CustomStyle.midColor1:"transparent"
+            color:control.hour<12&&pmarea.containsMouse?CustomStyle.midColor1:"transparent"
             MouseArea
             {
                 id:pmarea
                 anchors.fill: parent
                 hoverEnabled : true
-                enabled:control.selDate.getHours()<12
+                enabled:control.hour<12
                 onClicked:
                 {
-                    control.selDate.setHours(control.selDate.getHours()+12);
+                    control.hour+=12;
                 }
             }
 
@@ -294,7 +298,7 @@ Item
             id:pm
             height:amOrPm.height*0.6
             width:amOrPm.width*0.5
-            color:control.selDate.getHours()>=12||pmarea.containsMouse?CustomStyle.frontColor1:CustomStyle.midColor1
+            color:control.hour>=12||pmarea.containsMouse?CustomStyle.frontColor1:CustomStyle.midColor1
             text: new Date('December 17, 1995 18:24:00').toLocaleTimeString(Qt.locale(),"a");
             anchors.leftMargin:  parent.width*0.05
             anchors.left:   parent.horizontalCenter
@@ -304,10 +308,8 @@ Item
             horizontalAlignment: Text.AlignLeft
             fontSizeMode:Text.Fit
             font.pixelSize: 80
-            font.family: (control.selDate.getHours()>=12)?rFont.font.family:lFont.font.family
-            font.weight: (control.selDate.getHours()>=12)?rFont.font.weight:lFont.font.weight
-
-
+            font.family: (control.hour>=12)?rFont.font.family:lFont.font.family
+            font.weight: (control.hour>=12)?rFont.font.weight:lFont.font.weight
 
         }
     }
