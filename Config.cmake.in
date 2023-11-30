@@ -1,0 +1,5 @@
+@PACKAGE_INIT@
+include(CMakeFindDependencyMacro)
+find_dependency(Qt6 REQUIRED COMPONENTS Core Gui Quick )
+find_dependency(MyDesigns 0.4 REQUIRED  CONFIG)
+include ( "${CMAKE_CURRENT_LIST_DIR}/DTPickersTargetsTargets.cmake" )
