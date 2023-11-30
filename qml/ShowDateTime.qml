@@ -8,6 +8,7 @@ GridLayout {
     id:control
     property date initDate: new Date()
     property alias selDate: datetimepicker.selDate
+    property alias mode: datetimepicker.mode
 
     property bool islandscape:control.width>control.height+100
 
@@ -45,9 +46,10 @@ GridLayout {
                 Layout.fillWidth: true
                 Layout.minimumWidth: 30
                 Layout.minimumHeight: 30
+                visible:control.mode!==DateTimePicker.Mode.TimeOnly
                 text:(isNaN(control.selDate))?"---- \n -- -- ":control.selDate.toLocaleDateString(Qt.locale(),"yyyy\n MMM dd ");
-                verticalAlignment: Text.AlignBottom
-                horizontalAlignment: Text.AlignRight
+                verticalAlignment: (control.mode===DateTimePicker.Mode.DateOnly)?Text.AlignVCenter:Text.AlignBottom
+                horizontalAlignment: (control.mode===DateTimePicker.Mode.DateOnly)?Text.AlignHCenter:Text.AlignRight
                 fontSizeMode:Text.Fit
                 font.pixelSize: 80
                 font.family: lFont.font.family
@@ -64,9 +66,10 @@ GridLayout {
                 Layout.fillWidth: true
                 Layout.minimumWidth: 40
                 Layout.minimumHeight: 30
+                visible:control.mode!==DateTimePicker.Mode.DateOnly
                 text:(isNaN(control.selDate))?"--:--_":control.selDate.toLocaleTimeString(Qt.locale(),"h:mm a");
-                verticalAlignment: control.islandscape?Text.AlignTop:Text.AlignBottom
-                horizontalAlignment: control.islandscape?Text.AlignRight:Text.AlignLeft
+                verticalAlignment: control.islandscape?((control.mode===DateTimePicker.Mode.TimeOnly)?Text.AlignVCenter:Text.AlignTop):Text.AlignBottom
+                horizontalAlignment: control.islandscape?Text.AlignRight:((control.mode===DateTimePicker.Mode.TimeOnly)?Text.AlignHCenter:Text.AlignLeft)
                 fontSizeMode:Text.Fit
                 font.pixelSize: 80
                 font.family: lFont.font.family

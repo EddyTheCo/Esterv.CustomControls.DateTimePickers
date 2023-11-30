@@ -151,7 +151,7 @@ ColumnLayout
             control.selDate.setFullYear(datePicker.selDate.getFullYear());
             control.selDate.setMonth(datePicker.selDate.getMonth());
             control.selDate.setDate(datePicker.selDate.getDate());
-            selectorhead.showcalendar=false;
+            if(control.mode!==DateTimePicker.Mode.DateOnly)selectorhead.showcalendar=false;
         }
     }
     TimePicker
@@ -163,11 +163,12 @@ ColumnLayout
         visible:!selectorhead.showcalendar
         onHourChanged:
         {
+            if(isNaN(control.selDate))control.selDate=new Date('December 10, 1990 00:00:00')
             control.selDate.setHours(timepicker.hour);
-
         }
         onMinuteChanged:
         {
+            if(isNaN(control.selDate))control.selDate=new Date('December 10, 1990 00:00:00')
             control.selDate.setMinutes(timepicker.minute);
         }
     }

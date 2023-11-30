@@ -10,7 +10,8 @@ ApplicationWindow {
    ShowDateTime
    {
        anchors.fill:parent
-       initDate:new Date('December 10, 1990 04:25:00')
+       //initDate:new Date('December 10, 1990 04:25:00')
+       //mode:DateTimePicker.Mode.DateOnly
    }
 
 
