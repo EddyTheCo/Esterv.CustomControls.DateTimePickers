@@ -9,13 +9,15 @@ Just add to your project CMakeLists.txt
 
 ```
 FetchContent_Declare(
-        DateTimePickers
+        DTPickers
         GIT_REPOSITORY https://github.com/EddyTheCo/DateTimePickers.git
         GIT_TAG main
         FIND_PACKAGE_ARGS 0.0 CONFIG
     )
-FetchContent_MakeAvailable(DateTimePickers)
-target_link_libraries(yourAppTarget PRIVATE DateTimePickers)
+FetchContent_MakeAvailable(DTPickers)
+target_link_libraries(yourAppTarget PRIVATE DTPickers 
+$<$<STREQUAL:$<TARGET_PROPERTY:DTPickers,TYPE>,STATIC_LIBRARY>:DTPickersplugin>
+)
 ```
 
 Then you have to add to your [QML IMPORT PATH](https://doc.qt.io/qt-6/qtqml-syntax-imports.html) the `qrc:/esterVtech.com/imports` path.
@@ -27,20 +29,14 @@ engine.addImportPath("qrc:/esterVtech.com/imports");
 ```
 The different types can be used in QML like
 ```
-import DateTimePickers
+import DTPickers
 
-CurrentWeather
+DateTimePicker
 {
-	width:250
-        height:250
-        anchors.centerIn:parent
-        latitude:41.902916
-        longitude:12.453389
-        frontColor:"lightgray"
 }
 ```
 
-You can play with the QML element [here](https://eddytheco.github.io/qmlonline/?example_url=omclient). 
+TODO You can play with the QML element [here](https://eddytheco.github.io/qmlonline/?example_url=omclient). 
 
 
 ## Contributing
