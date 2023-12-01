@@ -162,12 +162,12 @@ ColumnLayout
         visible:!selectorhead.showcalendar
         onHourChanged:
         {
-            if(isNaN(control.selDate))control.selDate=new Date('December 10, 1990 00:00:00')
+            if(isNaN(control.selDate))control.selDate=new Date()
             control.selDate.setHours(timepicker.hour);
         }
         onMinuteChanged:
         {
-            if(isNaN(control.selDate))control.selDate=new Date('December 10, 1990 00:00:00')
+            if(isNaN(control.selDate))control.selDate=new Date()
             control.selDate.setMinutes(timepicker.minute);
         }
     }
