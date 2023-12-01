@@ -2,7 +2,6 @@ import QtQuick.Layouts
 import QtQuick.Controls
 import QtQuick
 import QtQml
-import MyDesigns
 
 GridLayout {
     id:control
@@ -54,7 +53,7 @@ GridLayout {
                 font.pixelSize: 80
                 font.family: lFont.font.family
                 font.weight: lFont.font.weight
-                color: CustomStyle.frontColor1
+                color: control.palette.text
 
             }
 
@@ -74,7 +73,7 @@ GridLayout {
                 font.pixelSize: 80
                 font.family: lFont.font.family
                 font.weight: lFont.font.weight
-                color: CustomStyle.frontColor1
+                color: control.palette.text
                 MouseArea
                 {
                     id:hourarea

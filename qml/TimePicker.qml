@@ -2,7 +2,6 @@ import QtQuick.Layouts
 import QtQuick.Controls
 import QtQuick
 import QtQml
-import MyDesigns
 
 Item
 {
@@ -37,7 +36,7 @@ Item
         Rectangle
         {
             id:centerDot
-            color:CustomStyle.frontColor2
+            color:control.palette.highlight
             width:watchface.width*0.05
             height:width
             radius:width
@@ -46,7 +45,7 @@ Item
         Rectangle
         {
             id:arm
-            color:CustomStyle.frontColor2
+            color:control.palette.highlight
             width:watchface.width*0.02
             height:watchface.width*0.5
             radius:width
@@ -58,7 +57,7 @@ Item
         Rectangle
         {
             id:armEnd
-            color:CustomStyle.frontColor2
+            color:control.palette.highlight
             width:Math.tan(0.35)*watchface.width*0.5/(1.0+Math.tan(0.35))
             height:width
             radius:width
@@ -82,7 +81,7 @@ Item
                 x:(watchface.width-width)*(1.0+Math.sin(index*Math.PI/6.0))*0.5
                 y:(watchface.width-width)*(1.0-Math.cos(index*Math.PI/6.0))*0.5
                 Label {
-                    color:CustomStyle.frontColor1
+                    color:control.palette.text
                     verticalAlignment: Text.AlignVCenter
                     horizontalAlignment: Text.AlignHCenter
                     width:parent.width*0.8
@@ -142,7 +141,7 @@ Item
             height:hourOrMinute.height*0.6
             width:height
             radius:width
-            color:prevarea.containsMouse?CustomStyle.midColor1:"transparent"
+            color:watchface.isHourSelection?control.palette.disabled.button:control.palette.button
             anchors.rightMargin:  parent.width*0.1
             anchors.right:   parent.horizontalCenter
             anchors.verticalCenter: parent.verticalCenter
@@ -150,7 +149,7 @@ Item
             {
                 id:prevshader
                 property var src:prev
-                property color fcolor:(watchface.isHourSelection)?CustomStyle.midColor1:CustomStyle.frontColor1
+                property color fcolor:(watchface.isHourSelection)?control.palette.disabled.buttonText:control.palette.buttonText
                 height:parent.height*0.7
                 width:height
                 anchors.verticalCenter:  parent.verticalCenter
@@ -158,13 +157,12 @@ Item
                 anchors.leftMargin: parent.height*0.2
                 property real iTime:0.5;
                 property var pixelStep: Qt.vector2d(1/src.width, 1/src.height)
-                fragmentShader: "qrc:/esterVtech.com/imports/MyDesigns/frag/hollowArrowHead.frag.qsb"
+                fragmentShader: "qrc:/esterVtech.com/imports/DTPickers/frag/hollowArrowHead.frag.qsb"
             }
             MouseArea
             {
                 id:prevarea
                 anchors.fill: parent
-                hoverEnabled : true
                 enabled:!watchface.isHourSelection
                 onClicked:
                 {
@@ -184,12 +182,12 @@ Item
             height:prev.height
             width:height
             radius:width
-            color:nextarea.containsMouse?CustomStyle.midColor1:"transparent"
+            color:watchface.isHourSelection?control.palette.button:control.palette.disabled.button
             ShaderEffect
             {
                 id:nextshader
                 property var src:next
-                property color fcolor:(watchface.isHourSelection)?CustomStyle.frontColor1:CustomStyle.midColor1
+                property color fcolor:(watchface.isHourSelection)?control.palette.buttonText:control.palette.disabled.buttonText
                 height:parent.height*0.7
                 width:height
                 anchors.verticalCenter:  parent.verticalCenter
@@ -197,13 +195,12 @@ Item
                 anchors.rightMargin: parent.height*0.2
                 property real iTime:1.5;
                 property var pixelStep: Qt.vector2d(1/src.width, 1/src.height)
-                fragmentShader: "qrc:/esterVtech.com/imports/MyDesigns/frag/hollowArrowHead.frag.qsb"
+                fragmentShader: "qrc:/esterVtech.com/imports/DTPickers/frag/hollowArrowHead.frag.qsb"
             }
             MouseArea
             {
                 id:nextarea
                 anchors.fill: parent
-                hoverEnabled : true
                 enabled:watchface.isHourSelection
                 onClicked:
                 {
@@ -230,12 +227,11 @@ Item
             width:am.contentWidth
             height:am.contentHeight
             radius:Math.min(width,height)*0.1
-            color:control.hour>=12&&amarea.containsMouse?CustomStyle.midColor1:"transparent"
+            color:control.hour>=12?control.palette.button:control.palette.disabled.button
             MouseArea
             {
                 id:amarea
                 anchors.fill: parent
-                hoverEnabled : true
                 enabled:control.hour>=12
                 onClicked:
                 {
@@ -249,7 +245,7 @@ Item
             id:am
             height:amOrPm.height*0.6
             width:amOrPm.width*0.5
-            color:control.hour<12||amarea.containsMouse?CustomStyle.frontColor1:CustomStyle.midColor1
+            color:control.hour>=12?control.palette.buttonText:control.palette.disabled.buttonText
 
             anchors.rightMargin:  parent.width*0.05
             anchors.right:   parent.horizontalCenter
@@ -278,7 +274,7 @@ Item
             width:pm.contentWidth
             height:pm.contentHeight
             radius:Math.min(width,height)*0.1
-            color:control.hour<12&&pmarea.containsMouse?CustomStyle.midColor1:"transparent"
+            color:control.hour<12?control.palette.button:control.palette.disabled.button
             MouseArea
             {
                 id:pmarea
@@ -298,7 +294,7 @@ Item
             id:pm
             height:amOrPm.height*0.6
             width:amOrPm.width*0.5
-            color:control.hour>=12||pmarea.containsMouse?CustomStyle.frontColor1:CustomStyle.midColor1
+            color:control.hour<12?control.palette.buttonText:control.palette.disabled.buttonText
             text: new Date('December 17, 1995 18:24:00').toLocaleTimeString(Qt.locale(),"a");
             anchors.leftMargin:  parent.width*0.05
             anchors.left:   parent.horizontalCenter

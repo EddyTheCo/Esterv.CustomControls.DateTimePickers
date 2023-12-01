@@ -30,13 +30,6 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
 include(GNUInstallDirs)
-FetchContent_Declare(
-	MyDesigns
-	GIT_REPOSITORY https://github.com/EddyTheCo/MyDesigns.git
-        GIT_TAG improvements
-	FIND_PACKAGE_ARGS 0.4 CONFIG
-	)
-FetchContent_MakeAvailable(MyDesigns)
 
 find_package(Qt6 COMPONENTS Core Gui Quick ShaderTools)
 
@@ -71,10 +64,11 @@ if (Qt6_FOUND)
                 FILES
                 "frag/clock.frag"
                 "frag/calendar.frag"
+		"frag/hollowArrowHead.frag"
+		"frag/filledArrowHead.frag"
                 )
 
-	target_link_libraries(DTPickers PUBLIC Qt6::Gui Qt6::Quick Qt6::Core MyDesigns 
-		$<$<STREQUAL:$<TARGET_PROPERTY:MyDesigns,TYPE>,STATIC_LIBRARY>:MyDesignsplugin>)
+	target_link_libraries(DTPickers PUBLIC Qt6::Gui Qt6::Quick Qt6::Core )
 
 
 if(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME AND BUILD_EXAMPLES)

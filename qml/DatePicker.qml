@@ -1,7 +1,6 @@
 import QtQuick.Controls
 import QtQuick
 import QtQml
-import MyDesigns
 
 Item {
     id:control
@@ -49,7 +48,7 @@ Item {
             {
                 id:yearlabel
                 text:initDate.toLocaleDateString(Qt.locale(),"MMM yyyy");
-                color: CustomStyle.frontColor1
+                color: control.palette.windowText
                 verticalAlignment: Text.AlignVCenter
                 horizontalAlignment: Text.AlignLeft
                 fontSizeMode:Text.Fit
@@ -71,14 +70,14 @@ Item {
                 {
                     id:shaderyearChooser
                     property var src:yeartoogle
-                    property color fcolor: CustomStyle.frontColor1
+                    property color fcolor: control.palette.windowText
                     anchors.centerIn:  yeartoogle;
                     width:Math.min(parent.width,parent.height)*0.5
                     height:width
                     property real iTime:0.0;
                     Behavior on iTime { SmoothedAnimation { velocity: 3.0} }
                     property var pixelStep: Qt.vector2d(1/src.width, 1/src.height)
-                    fragmentShader: "qrc:/esterVtech.com/imports/MyDesigns/frag/filledArrowHead.frag.qsb"
+                    fragmentShader: "qrc:/esterVtech.com/imports/DTPickers/frag/filledArrowHead.frag.qsb"
                 }
 
             }
@@ -105,7 +104,7 @@ Item {
                 height:yearlabel.height*0.6
                 width:height
                 radius:width
-                color:prevarea.containsMouse?CustomStyle.midColor1:"transparent"
+                color:control.palette.button
                 anchors.rightMargin:  parent.width*0.1
                 anchors.right:   parent.horizontalCenter
                 anchors.verticalCenter: parent.verticalCenter
@@ -113,7 +112,7 @@ Item {
                 {
                     id:prevshader
                     property var src:prevmonth
-                    property color fcolor:CustomStyle.frontColor1
+                    property color fcolor:control.palette.buttonText
                     height:parent.height*0.7
                     width:height
                     anchors.verticalCenter:  parent.verticalCenter
@@ -121,13 +120,13 @@ Item {
                     anchors.leftMargin: parent.height*0.2
                     property real iTime:0.5;
                     property var pixelStep: Qt.vector2d(1/src.width, 1/src.height)
-                    fragmentShader: "qrc:/esterVtech.com/imports/MyDesigns/frag/hollowArrowHead.frag.qsb"
+                    fragmentShader: "qrc:/esterVtech.com/imports/DTPickers/frag/hollowArrowHead.frag.qsb"
+	            antialiasing: true
                 }
                 MouseArea
                 {
                     id:prevarea
                     anchors.fill: parent
-                    hoverEnabled : true
                     onClicked:
                     {
                         let m=(monthview.sDate.getMonth()+11)%12;
@@ -157,12 +156,12 @@ Item {
                 height:prevmonth.height
                 width:height
                 radius:width
-                color:nextarea.containsMouse?CustomStyle.midColor1:"transparent"
+                color:control.palette.button
                 ShaderEffect
                 {
                     id:nextshader
                     property var src:nextmonth
-                    property color fcolor:CustomStyle.frontColor1
+                    property color fcolor:control.palette.buttonText
                     height:parent.height*0.7
                     width:height
                     anchors.verticalCenter:  parent.verticalCenter
@@ -170,13 +169,13 @@ Item {
                     anchors.rightMargin: parent.height*0.2
                     property real iTime:1.5;
                     property var pixelStep: Qt.vector2d(1/src.width, 1/src.height)
-                    fragmentShader: "qrc:/esterVtech.com/imports/MyDesigns/frag/hollowArrowHead.frag.qsb"
+                    fragmentShader: "qrc:/esterVtech.com/imports/DTPickers/frag/hollowArrowHead.frag.qsb"
+	            antialiasing: true
                 }
                 MouseArea
                 {
                     id:nextarea
                     anchors.fill: parent
-                    hoverEnabled : true
                     onClicked:
                     {
                         let m=(monthview.sDate.getMonth()+1)%12;
@@ -222,7 +221,7 @@ Item {
                     font.pixelSize: 80
                     font.family: lFont.font.family
                     font.weight: lFont.font.weight
-                    color: CustomStyle.midColor1
+                    color: control.palette.mid
                     horizontalAlignment: Text.AlignHCenter
                     verticalAlignment: Text.AlignVCenter
                 }
@@ -256,12 +255,12 @@ Item {
                             width:Math.min(parent.width,parent.height)
                             height:width
                             radius: width
-                            color: (model.month===control.selDate.getMonth()&&model.year===control.selDate.getFullYear()&&model.day===control.selDate.getDate())?CustomStyle.frontColor2:(dayarea.containsMouse?CustomStyle.midColor1:"transparent")
+                            color: (model.month===control.selDate.getMonth()&&model.year===control.selDate.getFullYear()&&model.day===control.selDate.getDate())?control.palette.highlight:(dayarea.containsMouse?control.palette.mid:"transparent")
 
                             Text{
                                 id:daytext
                                 text:model.day
-                                color:CustomStyle.frontColor1
+                                color:control.palette.buttonText
                                 anchors.centerIn: parent
                                 anchors.fill: parent
                                 horizontalAlignment: Text.AlignHCenter
@@ -312,11 +311,11 @@ Item {
             width:yearSelector.cellWidth*0.6
             height:yearSelector.cellHeight*0.9
             radius:height*0.5
-            color: (year===monthview.sDate.getFullYear())?CustomStyle.frontColor2:(yeararea.containsMouse)?CustomStyle.midColor1:"transparent"
+            color: (year===monthview.sDate.getFullYear())?control.palette.highlight:(yeararea.containsMouse)?control.palette.mid:"transparent"
             Text{
                 id:yeartext
                 text:year
-                color:CustomStyle.frontColor1
+                color:control.palette.buttonText
                 anchors.centerIn: parent
                 anchors.fill: parent
                 horizontalAlignment: Text.AlignHCenter

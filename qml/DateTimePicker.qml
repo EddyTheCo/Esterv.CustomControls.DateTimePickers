@@ -2,7 +2,6 @@ import QtQuick.Layouts
 import QtQuick.Controls
 import QtQuick
 import QtQml
-import MyDesigns
 
 
 ColumnLayout
@@ -53,7 +52,7 @@ ColumnLayout
             {
                 id:calendarshader
                 property var src:clendarbutton
-                property color fcolor:(selectorhead.showcalendar)?CustomStyle.frontColor2:CustomStyle.frontColor1
+                property color fcolor:(selectorhead.showcalendar)?control.palette.highlight:control.palette.windowText
                 height:Math.min(clendarbutton.width,clendarbutton.height)*0.8
                 width:height
                 anchors.centerIn: clendarbutton
@@ -79,7 +78,7 @@ ColumnLayout
                 height:parent.height*0.05
                 anchors.verticalCenter:  parent.bottom
                 anchors.right: parent.right
-                color:CustomStyle.frontColor2
+                color:control.palette.highlight
             }
 
         }
@@ -95,7 +94,7 @@ ColumnLayout
             {
                 id:timeshader
                 property var src:timebutton
-                property color fcolor:(!selectorhead.showcalendar)?CustomStyle.frontColor2:CustomStyle.frontColor1
+                property color fcolor:(!selectorhead.showcalendar)?control.palette.highlight:control.palette.windowText
                 height:Math.min(timebutton.width,timebutton.height)*0.8
                 width:height
                 anchors.centerIn: timebutton
@@ -120,7 +119,7 @@ ColumnLayout
                 height:parent.height*0.05
                 anchors.verticalCenter:  parent.bottom
                 anchors.left: parent.left
-                color:CustomStyle.frontColor2
+                color:control.palette.highlight
             }
 
         }
@@ -133,7 +132,7 @@ ColumnLayout
         Layout.minimumHeight: calendarline.height*0.4
         Layout.alignment: Qt.AlignTop
         opacity:0.5
-        color:CustomStyle.midColor1
+        color:control.palette.mid
     }
 
 
