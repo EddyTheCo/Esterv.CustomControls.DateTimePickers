@@ -1,22 +1,18 @@
+pragma ComponentBehavior: Bound
 import QtQuick.Controls
 import QtQuick
 import QtQml
+import Esterv.Styles.Simple
+import Esterv.CustomControls
 
 Item {
+
     id:control
     property alias initDate: monthview.sDate;
     property date selDate;
     property alias chooseYear:yearChooser.checked
 
 
-    FontLoader {
-        id: lFont
-        source: "qrc:/esterVtech.com/imports/DTPickers/fonts/Roboto/Roboto-Light.ttf"
-    }
-    FontLoader {
-        id: rFont
-        source: "qrc:/esterVtech.com/imports/DTPickers/fonts/Roboto/Roboto-Regular.ttf"
-    }
     Component.onCompleted:
     {
         for (let i = 0; i < 200; i++) {
@@ -47,14 +43,12 @@ Item {
             Label
             {
                 id:yearlabel
-                text:initDate.toLocaleDateString(Qt.locale(),"MMM yyyy");
-                color: control.palette.windowText
+                text:control.initDate.toLocaleDateString(Qt.locale(),"MMM yyyy");
+                color: Style.frontColor2
                 verticalAlignment: Text.AlignVCenter
                 horizontalAlignment: Text.AlignLeft
                 fontSizeMode:Text.Fit
                 font.pixelSize: 80
-                font.family: rFont.font.family
-                font.weight: rFont.font.weight
                 height:yearChooser.height
                 width:yearChooser.width*0.8
             }
@@ -70,14 +64,14 @@ Item {
                 {
                     id:shaderyearChooser
                     property var src:yeartoogle
-                    property color fcolor: control.palette.windowText
+                    property color fcolor: Style.frontColor2
                     anchors.centerIn:  yeartoogle;
                     width:Math.min(parent.width,parent.height)*0.5
                     height:width
                     property real iTime:0.0;
                     Behavior on iTime { SmoothedAnimation { velocity: 3.0} }
                     property var pixelStep: Qt.vector2d(1/src.width, 1/src.height)
-                    fragmentShader: "qrc:/esterVtech.com/imports/DTPickers/frag/filledArrowHead.frag.qsb"
+                    fragmentShader: "qrc:/esterVtech.com/imports/Designs/frag/filledArrowHead.frag.qsb"
                 }
 
             }
@@ -98,56 +92,36 @@ Item {
             opacity:1.0-shaderyearChooser.iTime
             visible: shaderyearChooser.iTime<0.8
             color:"transparent"
-            Rectangle
+            PrevButton
             {
                 id:prevmonth
                 height:yearlabel.height*0.6
                 width:height
-                radius:width
-                color:control.palette.button
+                radius:height
                 anchors.rightMargin:  parent.width*0.1
                 anchors.right:   parent.horizontalCenter
                 anchors.verticalCenter: parent.verticalCenter
-                ShaderEffect
+                flat:true
+                onClicked:
                 {
-                    id:prevshader
-                    property var src:prevmonth
-                    property color fcolor:control.palette.buttonText
-                    height:parent.height*0.7
-                    width:height
-                    anchors.verticalCenter:  parent.verticalCenter
-                    anchors.left: parent.left
-                    anchors.leftMargin: parent.height*0.2
-                    property real iTime:0.5;
-                    property var pixelStep: Qt.vector2d(1/src.width, 1/src.height)
-                    fragmentShader: "qrc:/esterVtech.com/imports/DTPickers/frag/hollowArrowHead.frag.qsb"
-	            antialiasing: true
-                }
-                MouseArea
-                {
-                    id:prevarea
-                    anchors.fill: parent
-                    onClicked:
+                    let m=(monthview.sDate.getMonth()+11)%12;
+                    if(m===11)
                     {
-                        let m=(monthview.sDate.getMonth()+11)%12;
-                        if(m===11)
-                        {
-                            monthview.sDate.setFullYear(monthview.sDate.getFullYear()-1);
-                            monthview.setCurrentIndex(11);
-
-                        }
-                        else
-                        {
-                            monthview.decrementCurrentIndex();
-                        }
-                        monthview.sDate.setMonth(m);
+                        monthview.sDate.setFullYear(monthview.sDate.getFullYear()-1);
+                        monthview.setCurrentIndex(11);
 
                     }
+                    else
+                    {
+                        monthview.decrementCurrentIndex();
+                    }
+                    monthview.sDate.setMonth(m);
+
                 }
 
-
             }
-            Rectangle
+
+            NextButton
             {
                 id:nextmonth
                 anchors.leftMargin:  parent.width*0.1
@@ -155,41 +129,21 @@ Item {
                 anchors.verticalCenter: parent.verticalCenter
                 height:prevmonth.height
                 width:height
-                radius:width
-                color:control.palette.button
-                ShaderEffect
+                radius:height
+                flat:true
+                onClicked:
                 {
-                    id:nextshader
-                    property var src:nextmonth
-                    property color fcolor:control.palette.buttonText
-                    height:parent.height*0.7
-                    width:height
-                    anchors.verticalCenter:  parent.verticalCenter
-                    anchors.right: parent.right
-                    anchors.rightMargin: parent.height*0.2
-                    property real iTime:1.5;
-                    property var pixelStep: Qt.vector2d(1/src.width, 1/src.height)
-                    fragmentShader: "qrc:/esterVtech.com/imports/DTPickers/frag/hollowArrowHead.frag.qsb"
-	            antialiasing: true
-                }
-                MouseArea
-                {
-                    id:nextarea
-                    anchors.fill: parent
-                    onClicked:
+                    let m=(monthview.sDate.getMonth()+1)%12;
+                    if(m===0)
                     {
-                        let m=(monthview.sDate.getMonth()+1)%12;
-                        if(m===0)
-                        {
-                            monthview.sDate.setFullYear(monthview.sDate.getFullYear()+1);
-                            monthview.setCurrentIndex(0);
-                        }
-                        else
-                        {
-                            monthview.incrementCurrentIndex();
-                        }
-                        monthview.sDate.setMonth(m);
+                        monthview.sDate.setFullYear(monthview.sDate.getFullYear()+1);
+                        monthview.setCurrentIndex(0);
                     }
+                    else
+                    {
+                        monthview.incrementCurrentIndex();
+                    }
+                    monthview.sDate.setMonth(m);
                 }
             }
         }
@@ -215,13 +169,13 @@ Item {
                 color:"transparent"
                 Label
                 {
-                    anchors.fill: parent
-                    text: shortName
+                    width:parent.width*0.8
+                    height:parent.height*0.8
+                    anchors.centerIn: parent
+                    text: parent.shortName
                     fontSizeMode:Text.Fit
                     font.pixelSize: 80
-                    font.family: lFont.font.family
-                    font.weight: lFont.font.weight
-                    color: control.palette.mid
+                    color: Style.frontColor3
                     horizontalAlignment: Text.AlignHCenter
                     verticalAlignment: Text.AlignVCenter
                 }
@@ -244,44 +198,34 @@ Item {
                     required property int index
                     year:monthview.sDate.getFullYear()
                     month: index
-
                     delegate: Item {
                         id:dayrect
                         required property var model
                         opacity: model.month === monthGrid.month ? 1 : 0
-                        Rectangle
+
+                        RoundButton
                         {
+                            id:daybutton
                             anchors.centerIn: parent
                             width:Math.min(parent.width,parent.height)
                             height:width
                             radius: width
-                            color: (model.month===control.selDate.getMonth()&&model.year===control.selDate.getFullYear()&&model.day===control.selDate.getDate())?control.palette.highlight:(dayarea.containsMouse?control.palette.mid:"transparent")
-
-                            Text{
-                                id:daytext
-                                text:model.day
-                                color:control.palette.buttonText
-                                anchors.centerIn: parent
-                                anchors.fill: parent
-                                horizontalAlignment: Text.AlignHCenter
-                                verticalAlignment: Text.AlignVCenter
-                                fontSizeMode:Text.Fit
-                                font.pixelSize: Math.min(parent.width,parent.height)*0.4
-                            }
-                            MouseArea
+                            text:parent.model.day
+                            flat:true
+                            font.pixelSize: width*0.35
+                            highlighted:(parent.model.month===control.selDate.getMonth()&&parent.model.year===control.selDate.getFullYear()&&parent.model.day===control.selDate.getDate())
+                            onClicked:
                             {
-                                id:dayarea
-                                anchors.fill: parent
-                                hoverEnabled: true
-
-                                onClicked: ()=>
-                                           {
-                                               monthview.sDate=dayrect.model.date;
-                                               control.selDate=dayrect.model.date;
-                                           }
+                                monthview.sDate=dayrect.model.date;
+                                control.selDate=dayrect.model.date;
                             }
+
                         }
+
+
+
                     }
+
                 }
 
             }
@@ -307,42 +251,29 @@ Item {
 
         clip:true
         ScrollBar.vertical: ScrollBar { }
-        delegate: Rectangle {
+        delegate: RoundButton {
+	    required property int year
             width:yearSelector.cellWidth*0.6
             height:yearSelector.cellHeight*0.9
-            radius:height*0.5
-            color: (year===monthview.sDate.getFullYear())?control.palette.highlight:(yeararea.containsMouse)?control.palette.mid:"transparent"
-            Text{
-                id:yeartext
-                text:year
-                color:control.palette.buttonText
-                anchors.centerIn: parent
-                anchors.fill: parent
-                horizontalAlignment: Text.AlignHCenter
-                verticalAlignment: Text.AlignVCenter
-                fontSizeMode:Text.Fit
-                font.pixelSize: parent.height*0.5
-                font.family: lFont.font.family
-                font.weight: lFont.font.weight
-            }
-
-
-            MouseArea
-            {
-                id:yeararea
-                anchors.fill: parent
-                hoverEnabled: true
-                onClicked:{
-                    monthview.sDate.setFullYear(year);
-                    yearChooser.checked=false;
-                }
+            text:year
+            flat:true
+            highlighted:year===monthview.sDate.getFullYear()
+            font.pixelSize: Math.min(height,width)*0.35
+            radius: Math.min(height,width)*0.5
+            onClicked: {
+                monthview.sDate.setFullYear(year);
+                yearChooser.checked=false;
             }
         }
+
+
+
         ListModel {
             id: yearmodel
         }
 
 
     }
+
 
 }

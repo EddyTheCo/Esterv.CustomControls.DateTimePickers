@@ -2,6 +2,7 @@ import QtQuick.Layouts
 import QtQuick.Controls
 import QtQuick
 import QtQml
+import Esterv.Styles.Simple
 
 GridLayout {
     id:control
@@ -9,19 +10,11 @@ GridLayout {
     property alias selDate: datetimepicker.selDate
     property alias mode: datetimepicker.mode
 
-    property bool islandscape:control.width>control.height+100
+    property bool islandscape:control.width>control.height
 
-    columns: control.islandscape ? 2 : 1
-    rows : control.islandscape ? 1 : 2
+    flow: (control.islandscape)?GridLayout.LeftToRight:GridLayout.TopToBottom
 
-    FontLoader {
-        id: lFont
-        source: "qrc:/esterVtech.com/imports/DTPickers/fonts/Roboto/Roboto-Light.ttf"
-    }
-    FontLoader {
-        id: rFont
-        source: "qrc:/esterVtech.com/imports/DTPickers/fonts/Roboto/Roboto-Regular.ttf"
-    }
+
     Rectangle
     {
         color:"transparent"
@@ -35,8 +28,7 @@ GridLayout {
         GridLayout
         {
             anchors.fill: parent
-            columns: control.columns===1 ? 2 : 1
-            rows : control.columns===1 ? 1 : 2
+            flow: !control.flow 
 
             Label
             {
@@ -51,9 +43,7 @@ GridLayout {
                 horizontalAlignment: (control.mode===DateTimePicker.Mode.DateOnly)?Text.AlignHCenter:Text.AlignRight
                 fontSizeMode:Text.Fit
                 font.pixelSize: 80
-                font.family: lFont.font.family
-                font.weight: lFont.font.weight
-                color: control.palette.text
+                color: Style.frontColor1
 
             }
 
@@ -71,14 +61,7 @@ GridLayout {
                 horizontalAlignment: control.islandscape?Text.AlignRight:((control.mode===DateTimePicker.Mode.TimeOnly)?Text.AlignHCenter:Text.AlignLeft)
                 fontSizeMode:Text.Fit
                 font.pixelSize: 80
-                font.family: lFont.font.family
-                font.weight: lFont.font.weight
-                color: control.palette.text
-                MouseArea
-                {
-                    id:hourarea
-                    anchors.fill: parent
-                }
+                color: Style.frontColor1
             }
 
 
