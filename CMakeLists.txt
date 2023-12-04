@@ -49,6 +49,7 @@ qt6_add_qml_module(DTPickers
 	OUTPUT_DIRECTORY
         ${CMAKE_BINARY_DIR}/Esterv/CustomControls/DateTimePickers
 	IMPORT_PATH ${CMAKE_BINARY_DIR} ${CMAKE_INSTALL_LIBDIR}
+	IMPORTS QtQuick.Layouts 
 	)
 
 qt6_add_shaders(DTPickers "esterVtech.com.imports.DTPickers.shaders"
@@ -63,19 +64,26 @@ qt6_add_shaders(DTPickers "esterVtech.com.imports.DTPickers.shaders"
 	"frag/calendar.frag"
 	)
 
-target_link_libraries(DTPickers PUBLIC Qt6::Gui Qt6::Quick Qt6::Core EstervDesigns::SimpleStyle EstervDesigns::customControls )
+target_link_libraries(DTPickers PUBLIC Qt6::Gui Qt6::Quick Qt6::Core EstervDesigns::SimpleStyle EstervDesigns::customControls 
+	$<$<STREQUAL:$<TARGET_PROPERTY:EstervDesigns::SimpleStyle,TYPE>,STATIC_LIBRARY>:EstervDesigns::SimpleStyleplugin>
+	$<$<STREQUAL:$<TARGET_PROPERTY:EstervDesigns::customControls,TYPE>,STATIC_LIBRARY>:EstervDesigns::customControlsplugin>
+	)
 
 install(TARGETS ${out_targets_var} ${out_targets_var2}  DTPickers
 	EXPORT ${PROJECT_NAME}-config
-	DESTINATION ${CMAKE_INSTALL_LIBDIR})
+	DESTINATION ${CMAKE_INSTALL_LIBDIR}
+	COMPONENT DTPickers
+	)
 
 install(DIRECTORY ${CMAKE_BINARY_DIR}/Esterv/CustomControls
 	DESTINATION ${CMAKE_INSTALL_LIBDIR}/Esterv
+	COMPONENT DTPickers
 	)
 
 install(TARGETS DTPickersplugin
 	EXPORT ${PROJECT_NAME}-config
 	DESTINATION ${CMAKE_INSTALL_LIBDIR}/Esterv/CustomControls 
+	COMPONENT DTPickers
 	)
 
 install(EXPORT ${PROJECT_NAME}-config
