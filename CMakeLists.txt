@@ -26,7 +26,7 @@ FetchContent_Declare(
 	EstervDesigns
 	GIT_REPOSITORY https://github.com/EddyTheCo/MyDesigns.git
         GIT_TAG improvements
-        FIND_PACKAGE_ARGS 0.4 COMPONENTS SimpleStyle CustomControls CONFIG
+	FIND_PACKAGE_ARGS 0.4 COMPONENTS SimpleStyle CustomControls CONFIG
 	)
 FetchContent_MakeAvailable(EstervDesigns)
 
@@ -62,7 +62,7 @@ qt6_add_shaders(DTPickers "esterVtech.com.imports.DTPickers.shaders"
 	"frag/calendar.frag"
 	)
 
-target_link_libraries(DTPickers PUBLIC Qt6::Gui Qt6::Quick Qt6::Core SimpleStyle customControls )
+target_link_libraries(DTPickers PUBLIC Qt6::Gui Qt6::Quick Qt6::Core EstervDesigns::SimpleStyle EstervDesigns::customControls )
 
 install(TARGETS ${out_targets_var} ${out_targets_var2}  DTPickers
 	EXPORT ${PROJECT_NAME}-config
@@ -79,14 +79,14 @@ install(TARGETS DTPickersplugin
 
 install(EXPORT ${PROJECT_NAME}-config
 	FILE ${PROJECT_NAME}-config.cmake
-	DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/EstervQt
+	DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/Esterv
 	NAMESPACE ${PROJECT_NAME}::
 	COMPONENT All
 	)
 include(CMakePackageConfigHelpers)
 configure_package_config_file(${CMAKE_CURRENT_SOURCE_DIR}/Config.cmake.in
 	"${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}Config.cmake"
-	INSTALL_DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/EstervQt
+	INSTALL_DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/Esterv
 	)
 write_basic_package_version_file(
 	"${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}ConfigVersion.cmake"
@@ -96,7 +96,7 @@ write_basic_package_version_file(
 install(FILES
 	${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}Config.cmake
 	${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}ConfigVersion.cmake
-	DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/EstervQt
+	DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/Esterv
 	)
 export(EXPORT ${PROJECT_NAME}-config
 	FILE "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}-config.cmake"
