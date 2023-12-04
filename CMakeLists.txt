@@ -48,6 +48,7 @@ qt6_add_qml_module(DTPickers
 	OUTPUT_TARGETS out_targets_var
 	OUTPUT_DIRECTORY
         ${CMAKE_BINARY_DIR}/Esterv/CustomControls/DateTimePickers
+	IMPORT_PATH ${CMAKE_BINARY_DIR} ${CMAKE_INSTALL_LIBDIR}
 	)
 
 qt6_add_shaders(DTPickers "esterVtech.com.imports.DTPickers.shaders"
