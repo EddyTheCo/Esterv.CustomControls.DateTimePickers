@@ -75,14 +75,14 @@ install(TARGETS ${out_targets_var} ${out_targets_var2}  DTPickers
 	COMPONENT DTPickers
 	)
 
-install(DIRECTORY ${CMAKE_BINARY_DIR}/Esterv/CustomControls
-	DESTINATION ${CMAKE_INSTALL_LIBDIR}/Esterv
+install(DIRECTORY ${CMAKE_BINARY_DIR}/Esterv/CustomControls/DateTimePickers
+	DESTINATION ${CMAKE_INSTALL_LIBDIR}/Esterv/CustomControls
 	COMPONENT DTPickers
 	)
 
 install(TARGETS DTPickersplugin
 	EXPORT ${PROJECT_NAME}-config
-	DESTINATION ${CMAKE_INSTALL_LIBDIR}/Esterv/CustomControls 
+	DESTINATION ${CMAKE_INSTALL_LIBDIR}/Esterv/CustomControls/DateTimePickers
 	COMPONENT DTPickers
 	)
 
