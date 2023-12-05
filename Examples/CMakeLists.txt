@@ -1,5 +1,10 @@
 cmake_minimum_required(VERSION 3.11)
 
+if(EMSCRIPTEN)
+	find_package(Qt6 REQUIRED COMPONENTS QuickControls2)
+	find_package(EstervDesigns 0.4 REQUIRED COMPONENTS Controls CONFIG )
+endif(EMSCRIPTEN)
+
 foreach(example "datepickerExample"
 		"timepickerExample"
 		"datetimepickerExample"
@@ -16,7 +21,7 @@ foreach(example "datepickerExample"
 		IMPORT_PATH ${CMAKE_BINARY_DIR}
 		)
 
-	target_link_libraries(${example} PRIVATE Qt::Gui Qt::Qml Qt::Quick DTPickers
+	target_link_libraries(${example} PRIVATE Qt::Gui Qt::Qml Qt::Quick      DTPickers
 		$<$<STREQUAL:$<TARGET_PROPERTY:DTPickers,TYPE>,STATIC_LIBRARY>:DTPickersplugin>
 		)
 
@@ -35,4 +40,10 @@ foreach(example "datepickerExample"
 			)
 		install(SCRIPT ${deploy_script})
 	endif(QTDEPLOY)
+	if(EMSCRIPTEN)
+		target_link_libraries(${example} PRIVATE EstervDesigns::FlatControl Qt6::QuickControls2
+			$<$<STREQUAL:$<TARGET_PROPERTY:EstervDesigns::FlatControl,TYPE>,STATIC_LIBRARY>:EstervDesigns::FlatControlplugin>
+			)
+		target_compile_definitions(${example} PRIVATE FORCE_STYLE="Esterv.Controls.Flat")
+	endif(EMSCRIPTEN)
 endforeach()
