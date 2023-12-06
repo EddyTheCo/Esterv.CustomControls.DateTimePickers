@@ -37,7 +37,7 @@ qt_standard_project_setup()
 
 qt6_add_qml_module(DTPickers
         URI  Esterv.CustomControls.DateTimePickers
-	VERSION ${VERSION}
+	VERSION 1.0
 	QML_FILES
 	"qml/DatePicker.qml"
 	"qml/TimePicker.qml"
