@@ -53,8 +53,8 @@ Just add to your project CMakeLists.txt
 FetchContent_Declare(
         DTPickersQML
         GIT_REPOSITORY https://github.com/EddyTheCo/DateTimePickers.git
-	GIT_TAG v1.0.0 
-        FIND_PACKAGE_ARGS 1.0 CONFIG
+	GIT_TAG v0.1.0 
+        FIND_PACKAGE_ARGS 0.1 CONFIG
     )
 FetchContent_MakeAvailable(DTPickersQML)
 target_link_libraries(yourAppTarget PRIVATE DTPickersQML::DTPickers 
