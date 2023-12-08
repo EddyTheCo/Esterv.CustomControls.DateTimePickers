@@ -1,9 +1,7 @@
 import QtQuick.Layouts
-import QtQuick.Controls
 import QtQuick
 import QtQml
-import MyDesigns
-
+import Esterv.Styles.Simple
 
 ColumnLayout
 {
@@ -53,14 +51,14 @@ ColumnLayout
             {
                 id:calendarshader
                 property var src:clendarbutton
-                property color fcolor:(selectorhead.showcalendar)?CustomStyle.frontColor2:CustomStyle.frontColor1
+                property color fcolor:(selectorhead.showcalendar)?Style.frontColor3:Style.backColor3
                 height:Math.min(clendarbutton.width,clendarbutton.height)*0.8
                 width:height
                 anchors.centerIn: clendarbutton
                 property real iTime:1.0
                 Behavior on iTime { SmoothedAnimation { velocity: 1.5} }
                 property var pixelStep: Qt.vector2d(1/src.width, 1/src.height)
-                fragmentShader: "qrc:/esterVtech.com/imports/DTPickers/frag/calendar.frag.qsb"
+                fragmentShader: "qrc:/esterVtech.com/imports/Designs/frag/calendar.frag.qsb"
             }
 
 
@@ -79,7 +77,7 @@ ColumnLayout
                 height:parent.height*0.05
                 anchors.verticalCenter:  parent.bottom
                 anchors.right: parent.right
-                color:CustomStyle.frontColor2
+                color:Style.frontColor3
             }
 
         }
@@ -95,14 +93,14 @@ ColumnLayout
             {
                 id:timeshader
                 property var src:timebutton
-                property color fcolor:(!selectorhead.showcalendar)?CustomStyle.frontColor2:CustomStyle.frontColor1
+                property color fcolor:(!selectorhead.showcalendar)?Style.frontColor3:Style.backColor3
                 height:Math.min(timebutton.width,timebutton.height)*0.8
                 width:height
                 anchors.centerIn: timebutton
                 property real iTime:0.0
                 Behavior on iTime { SmoothedAnimation { velocity: 1.5} }
                 property var pixelStep: Qt.vector2d(1/src.width, 1/src.height)
-                fragmentShader: "qrc:/esterVtech.com/imports/DTPickers/frag/clock.frag.qsb"
+                fragmentShader: "qrc:/esterVtech.com/imports/Designs/frag/clock.frag.qsb"
             }
 
             MouseArea
@@ -120,7 +118,7 @@ ColumnLayout
                 height:parent.height*0.05
                 anchors.verticalCenter:  parent.bottom
                 anchors.left: parent.left
-                color:CustomStyle.frontColor2
+                color:Style.frontColor3
             }
 
         }
@@ -133,7 +131,7 @@ ColumnLayout
         Layout.minimumHeight: calendarline.height*0.4
         Layout.alignment: Qt.AlignTop
         opacity:0.5
-        color:CustomStyle.midColor1
+        color:Style.midColor1
     }
 
 
@@ -163,12 +161,12 @@ ColumnLayout
         visible:!selectorhead.showcalendar
         onHourChanged:
         {
-            if(isNaN(control.selDate))control.selDate=new Date('December 10, 1990 00:00:00')
+            if(isNaN(control.selDate))control.selDate=new Date()
             control.selDate.setHours(timepicker.hour);
         }
         onMinuteChanged:
         {
-            if(isNaN(control.selDate))control.selDate=new Date('December 10, 1990 00:00:00')
+            if(isNaN(control.selDate))control.selDate=new Date()
             control.selDate.setMinutes(timepicker.minute);
         }
     }

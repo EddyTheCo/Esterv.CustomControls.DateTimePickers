@@ -1,8 +1,9 @@
-import QtQuick.Layouts
+pragma ComponentBehavior: Bound
 import QtQuick.Controls
 import QtQuick
 import QtQml
-import MyDesigns
+import Esterv.Styles.Simple
+import Esterv.CustomControls
 
 Item
 {
@@ -10,15 +11,6 @@ Item
     property int hour;
     property int minute;
     property alias chooseHour:watchface.isHourSelection
-
-    FontLoader {
-        id: lFont
-        source: "qrc:/esterVtech.com/imports/DTPickers/fonts/Roboto/Roboto-Light.ttf"
-    }
-    FontLoader {
-        id: rFont
-        source: "qrc:/esterVtech.com/imports/DTPickers/fonts/Roboto/Roboto-Regular.ttf"
-    }
 
 
     Rectangle
@@ -37,7 +29,7 @@ Item
         Rectangle
         {
             id:centerDot
-            color:CustomStyle.frontColor2
+            color:Style.backColor3
             width:watchface.width*0.05
             height:width
             radius:width
@@ -46,19 +38,19 @@ Item
         Rectangle
         {
             id:arm
-            color:CustomStyle.frontColor2
+            color:centerDot.color
             width:watchface.width*0.02
             height:watchface.width*0.5
             radius:width
             transform: Rotation { origin.x: arm.width*0.5; origin.y: arm.height; angle: watchface.selAngle}
-            anchors.left: centerDot.Center
+            anchors.left: centerDot.verticalCenter
             anchors.horizontalCenter:  watchface.horizontalCenter
             antialiasing: true
         }
         Rectangle
         {
             id:armEnd
-            color:CustomStyle.frontColor2
+            color:centerDot.color
             width:Math.tan(0.35)*watchface.width*0.5/(1.0+Math.tan(0.35))
             height:width
             radius:width
@@ -82,15 +74,13 @@ Item
                 x:(watchface.width-width)*(1.0+Math.sin(index*Math.PI/6.0))*0.5
                 y:(watchface.width-width)*(1.0-Math.cos(index*Math.PI/6.0))*0.5
                 Label {
-                    color:CustomStyle.frontColor1
+                    color:Style.frontColor1
                     verticalAlignment: Text.AlignVCenter
                     horizontalAlignment: Text.AlignHCenter
                     width:parent.width*0.8
                     height:parent.height*0.8
                     anchors.centerIn: parent
-                    text: (watchface.isHourSelection)?((index===0)?12:index):index*5
-                    font.family: rFont.font.family
-                    font.weight: rFont.font.weight
+                    text: (watchface.isHourSelection)?((parent.index===0)?12:parent.index):parent.index*5
                     fontSizeMode:Text.Fit
                     font.pixelSize: 80
                 }
@@ -136,46 +126,24 @@ Item
         anchors.bottom:watchface.top
         anchors.right: watchface.right
         color:"transparent"
-        Rectangle
+        PrevButton
         {
             id:prev
             height:hourOrMinute.height*0.6
             width:height
             radius:width
-            color:prevarea.containsMouse?CustomStyle.midColor1:"transparent"
+            flat:true
+            enabled: !watchface.isHourSelection
             anchors.rightMargin:  parent.width*0.1
             anchors.right:   parent.horizontalCenter
             anchors.verticalCenter: parent.verticalCenter
-            ShaderEffect
+            onClicked:
             {
-                id:prevshader
-                property var src:prev
-                property color fcolor:(watchface.isHourSelection)?CustomStyle.midColor1:CustomStyle.frontColor1
-                height:parent.height*0.7
-                width:height
-                anchors.verticalCenter:  parent.verticalCenter
-                anchors.left: parent.left
-                anchors.leftMargin: parent.height*0.2
-                property real iTime:0.5;
-                property var pixelStep: Qt.vector2d(1/src.width, 1/src.height)
-                fragmentShader: "qrc:/esterVtech.com/imports/MyDesigns/frag/hollowArrowHead.frag.qsb"
+                watchface.isHourSelection=true;
+
             }
-            MouseArea
-            {
-                id:prevarea
-                anchors.fill: parent
-                hoverEnabled : true
-                enabled:!watchface.isHourSelection
-                onClicked:
-                {
-                    watchface.isHourSelection=true;
-
-                }
-            }
-
-
         }
-        Rectangle
+        NextButton
         {
             id:next
             anchors.leftMargin:  parent.width*0.1
@@ -184,31 +152,11 @@ Item
             height:prev.height
             width:height
             radius:width
-            color:nextarea.containsMouse?CustomStyle.midColor1:"transparent"
-            ShaderEffect
+            enabled: watchface.isHourSelection
+            flat:true
+            onClicked:
             {
-                id:nextshader
-                property var src:next
-                property color fcolor:(watchface.isHourSelection)?CustomStyle.frontColor1:CustomStyle.midColor1
-                height:parent.height*0.7
-                width:height
-                anchors.verticalCenter:  parent.verticalCenter
-                anchors.right: parent.right
-                anchors.rightMargin: parent.height*0.2
-                property real iTime:1.5;
-                property var pixelStep: Qt.vector2d(1/src.width, 1/src.height)
-                fragmentShader: "qrc:/esterVtech.com/imports/MyDesigns/frag/hollowArrowHead.frag.qsb"
-            }
-            MouseArea
-            {
-                id:nextarea
-                anchors.fill: parent
-                hoverEnabled : true
-                enabled:watchface.isHourSelection
-                onClicked:
-                {
-                    watchface.isHourSelection=false;
-                }
+                watchface.isHourSelection=false;
             }
         }
     }
@@ -218,99 +166,40 @@ Item
 
         width:parent.width
         height:Math.min(parent.height,parent.width)*0.1
-
         anchors.top:watchface.bottom
         color:"transparent"
-        Rectangle
+        Button
         {
-            id:ammask
-            anchors.rightMargin:  parent.width*0.05
+            id:ambutt
             anchors.right:   parent.horizontalCenter
             anchors.verticalCenter: parent.verticalCenter
-            width:am.contentWidth
-            height:am.contentHeight
-            radius:Math.min(width,height)*0.1
-            color:control.hour>=12&&amarea.containsMouse?CustomStyle.midColor1:"transparent"
-            MouseArea
+            width:amOrPm.width*0.5
+            height:amOrPm.height
+            font.pixelSize: Math.min(width,height)*0.5
+            enabled:control.hour>=12
+            flat:true
+            text: new Date('December 17, 1995 03:24:00').toLocaleTimeString(Qt.locale(),"a");
+            onClicked:
             {
-                id:amarea
-                anchors.fill: parent
-                hoverEnabled : true
-                enabled:control.hour>=12
-                onClicked:
-                {
-                    control.hour-=12;
-                }
+                control.hour-=12;
             }
         }
-
-        Label
+        Button
         {
-            id:am
-            height:amOrPm.height*0.6
-            width:amOrPm.width*0.5
-            color:control.hour<12||amarea.containsMouse?CustomStyle.frontColor1:CustomStyle.midColor1
-
-            anchors.rightMargin:  parent.width*0.05
-            anchors.right:   parent.horizontalCenter
-            anchors.verticalCenter: parent.verticalCenter
-
-            verticalAlignment: Text.AlignVCenter
-            horizontalAlignment: Text.AlignRight
-            fontSizeMode:Text.Fit
-            font.pixelSize: 80
-            font.family: (control.hour<12)?rFont.font.family:lFont.font.family
-            font.weight: (control.hour<12)?rFont.font.weight:lFont.font.weight
-            text:new Date('December 17, 1995 03:24:00').toLocaleTimeString(Qt.locale(),"a");
-
-
-
-        }
-
-
-
-        Rectangle
-        {
-            id:pmmask
-            anchors.leftMargin:  parent.width*0.05
+            id:pmbutt
             anchors.left:   parent.horizontalCenter
             anchors.verticalCenter: parent.verticalCenter
-            width:pm.contentWidth
-            height:pm.contentHeight
-            radius:Math.min(width,height)*0.1
-            color:control.hour<12&&pmarea.containsMouse?CustomStyle.midColor1:"transparent"
-            MouseArea
-            {
-                id:pmarea
-                anchors.fill: parent
-                hoverEnabled : true
-                enabled:control.hour<12
-                onClicked:
-                {
-                    control.hour+=12;
-                }
-            }
-
-        }
-
-        Label
-        {
-            id:pm
-            height:amOrPm.height*0.6
             width:amOrPm.width*0.5
-            color:control.hour>=12||pmarea.containsMouse?CustomStyle.frontColor1:CustomStyle.midColor1
+            height:amOrPm.height
+            font.pixelSize: Math.min(width,height)*0.5
+            enabled:control.hour<12
+            flat:true
             text: new Date('December 17, 1995 18:24:00').toLocaleTimeString(Qt.locale(),"a");
-            anchors.leftMargin:  parent.width*0.05
-            anchors.left:   parent.horizontalCenter
-            anchors.verticalCenter: parent.verticalCenter
-
-            verticalAlignment: Text.AlignVCenter
-            horizontalAlignment: Text.AlignLeft
-            fontSizeMode:Text.Fit
-            font.pixelSize: 80
-            font.family: (control.hour>=12)?rFont.font.family:lFont.font.family
-            font.weight: (control.hour>=12)?rFont.font.weight:lFont.font.weight
-
+            onClicked:
+            {
+                control.hour+=12;
+            }
         }
+
     }
 }
