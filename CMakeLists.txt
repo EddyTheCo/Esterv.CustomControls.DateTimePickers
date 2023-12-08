@@ -52,6 +52,9 @@ qt6_add_qml_module(DTPickers
 	IMPORTS QtQuick.Layouts 
 	)
 
+add_library(${PROJECT_NAME}::DTPickers ALIAS DTPickers)
+add_library(${PROJECT_NAME}::DTPickersplugin ALIAS DTPickersplugin)
+
 qt6_add_shaders(DTPickers "esterVtech.com.imports.DTPickers.shaders"
 	BATCHABLE
 	PRECOMPILE
