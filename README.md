@@ -1,11 +1,11 @@
 # Date and Time pickers types for QML 
 
 This repo creates a QML module with custom types for date and  time selection.
-Ideally the types should look like [these](https://mui.com/x/react-date-pickers/date-time-picker/).
+Ideally, the types should look like [these](https://mui.com/x/react-date-pickers/date-time-picker/).
 
-The types should be style independent, but the colors used relies on the [EstervDesigns](https://github.com/EddyTheCo/MyDesigns)
+The types should be style-independent, but the colors used rely on the [EstervDesigns](https://github.com/EddyTheCo/MyDesigns)
 Simple style. 
-If you want to change the colors in your top qml file one can do
+If you want to change the colors in your top QML file you can do
 ```
 import Esterv.Styles.Simple
 ...
@@ -73,7 +73,7 @@ engine.addImportPath("qrc:/esterVtech.com/imports");
 ## Examples
 
 The [examples](examples) folder shows the use of the different custom types provided by the QML module.
-
+One can also play with the types [here](https://eddytheco.github.io/qmlonline/?example_url=dtpickers)
 
 
 ## Contributing
@@ -81,7 +81,7 @@ The [examples](examples) folder shows the use of the different custom types prov
 We appreciate any contribution!
 
 
-You can open an issue or request a feature also.
+You can open an issue or request a feature.
 You can open a PR to the `develop` branch and the CI/CD will take care of the rest.
-Make sure to acknowledge your work, ideas when contributing.
+Make sure to acknowledge your work, and ideas when contributing.
 
