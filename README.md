@@ -53,7 +53,7 @@ Just add to your project CMakeLists.txt
 FetchContent_Declare(
         DTPickersQML
         GIT_REPOSITORY https://github.com/EddyTheCo/DateTimePickers.git
-	GIT_TAG v0.1.0 
+	GIT_TAG v0.1.1 
         FIND_PACKAGE_ARGS 0.1 CONFIG
     )
 FetchContent_MakeAvailable(DTPickersQML)
