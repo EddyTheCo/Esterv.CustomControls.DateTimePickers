@@ -73,6 +73,7 @@ engine.addImportPath("qrc:/esterVtech.com/imports");
 ## Examples
 
 The [examples](examples) folder shows the use of the different custom types provided by the QML module.
+
 One can also play with the types [here](https://eddytheco.github.io/qmlonline/?example_url=dtpickers)
 
 
