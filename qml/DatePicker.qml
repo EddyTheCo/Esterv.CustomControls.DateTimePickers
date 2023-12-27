@@ -95,7 +95,7 @@ Item {
             PrevButton
             {
                 id:prevmonth
-                height:yearlabel.height*0.6
+                height:yearlabel.height
                 width:height
                 radius:height
                 anchors.rightMargin:  parent.width*0.1

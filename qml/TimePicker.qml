@@ -129,7 +129,7 @@ Item
         PrevButton
         {
             id:prev
-            height:hourOrMinute.height*0.6
+            height:hourOrMinute.height
             width:height
             radius:width
             flat:true
