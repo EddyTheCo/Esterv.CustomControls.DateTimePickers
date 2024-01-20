@@ -8,22 +8,20 @@ import Esterv.CustomControls
 Item
 {
     id:control
-    property int hour;
-    property int minute;
+    property int hour:0;
+    property int minute:0;
     property alias chooseHour:watchface.isHourSelection
+    signal selected();
 
-
-    Rectangle
+    Item
     {
-        color:"transparent"
         id:watchface
         anchors.centerIn: parent
         width:Math.min(parent.width,parent.height)*0.8
         height:width
-        radius:width
         property bool isHourSelection:true
-        property real selAngleHour:0
-        property real selAngleMinute:0
+        property real selAngleHour:360*(control.hour%12)/12.0
+        property real selAngleMinute:360*(control.minute%60)/60.0
         property real selAngle:(isHourSelection)?selAngleHour:selAngleMinute
         Behavior on selAngle { SmoothedAnimation { velocity: 180.0} }
         Rectangle
@@ -43,7 +41,6 @@ Item
             height:watchface.width*0.5
             radius:width
             transform: Rotation { origin.x: arm.width*0.5; origin.y: arm.height; angle: watchface.selAngle}
-            anchors.left: centerDot.verticalCenter
             anchors.horizontalCenter:  watchface.horizontalCenter
             antialiasing: true
         }
@@ -63,14 +60,12 @@ Item
             id:timeLabels
             model:12
             anchors.centerIn: watchface
-            delegate: Rectangle
+            delegate: Item
             {
                 id:timelabel
                 required property int index
-                color:"transparent"
                 width:Math.tan(0.261799388)*watchface.width*0.5/(1.0+Math.tan(0.261799388))
                 height:width
-                //radius:width
                 x:(watchface.width-width)*(1.0+Math.sin(index*Math.PI/6.0))*0.5
                 y:(watchface.width-width)*(1.0-Math.cos(index*Math.PI/6.0))*0.5
                 Label {
@@ -92,6 +87,7 @@ Item
             anchors.fill: watchface
             onClicked: (mouse) =>
                        {
+
                            if(Math.pow(mouse.x-watchface.width*0.5,2.0)+Math.pow(mouse.y-watchface.width*0.5,2.0)<Math.pow(watchface.width*0.5,2.0))
                            {
 
@@ -99,8 +95,10 @@ Item
                                {
                                    watchface.selAngleHour=90+180*(Math.atan((mouse.y-watchface.width*0.5)/(mouse.x-watchface.width*0.5))/Math.PI)+
                                    ((mouse.x-watchface.width*0.5<0)?180:0);
-                                   control.hour=Math.round(12.0*watchface.selAngleHour/360.0)+((control.hour>12)?12:0);
+                                   control.hour=Math.round(12.0*watchface.selAngleHour/360.0)%12;
+
                                    watchface.isHourSelection=false;
+
                                }
                                else
                                {
@@ -109,8 +107,8 @@ Item
                                    control.minute=Math.round(60.0*watchface.selAngleMinute/360.0)%60;
                                }
 
-
                            }
+                       control.selected();
                        }
         }
 
@@ -178,10 +176,11 @@ Item
             font.pixelSize: Math.min(width,height)*0.5
             enabled:control.hour>=12
             flat:true
-            text: new Date('December 17, 1995 03:24:00').toLocaleTimeString(Qt.locale(),"a");
+            text: Qt.locale().amText
             onClicked:
             {
                 control.hour-=12;
+                control.selected();
             }
         }
         Button
@@ -194,12 +193,14 @@ Item
             font.pixelSize: Math.min(width,height)*0.5
             enabled:control.hour<12
             flat:true
-            text: new Date('December 17, 1995 18:24:00').toLocaleTimeString(Qt.locale(),"a");
+            text: Qt.locale().pmText
             onClicked:
             {
                 control.hour+=12;
+                control.selected();
             }
         }
 
     }
+
 }

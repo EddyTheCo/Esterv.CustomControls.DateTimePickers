@@ -159,14 +159,12 @@ ColumnLayout
         Layout.fillHeight: true
         Layout.minimumHeight: 125
         visible:!selectorhead.showcalendar
-        onHourChanged:
+        hour:control.initDate.getHours()
+        minute:control.initDate.getMinutes()
+        onSelected:
         {
             if(isNaN(control.selDate))control.selDate=new Date()
             control.selDate.setHours(timepicker.hour);
-        }
-        onMinuteChanged:
-        {
-            if(isNaN(control.selDate))control.selDate=new Date()
             control.selDate.setMinutes(timepicker.minute);
         }
     }
