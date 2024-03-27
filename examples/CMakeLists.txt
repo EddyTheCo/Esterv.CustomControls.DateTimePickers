@@ -1,8 +1,8 @@
 if(BUILD_EXAMPLES)
-        if(EMSCRIPTEN OR ANDROID)
+	if(EMSCRIPTEN OR ANDROID)
 		find_package(Qt6 REQUIRED COMPONENTS QuickControls2)
 		find_package(EstervDesigns 0.4 REQUIRED COMPONENTS Controls CONFIG )
-        endif(EMSCRIPTEN OR ANDROID)
+	endif(EMSCRIPTEN OR ANDROID)
 
 	foreach(example "datepickerExample"
 			"timepickerExample"
@@ -30,8 +30,9 @@ if(BUILD_EXAMPLES)
 			)
 		install(TARGETS ${example}
 			BUNDLE  DESTINATION .
-			DESTINATION ${CMAKE_INSTALL_BINDIR}
-                        LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+			RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+			LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+			COMPONENT examples
 			)
 		if(QTDEPLOY)
 			qt_generate_deploy_qml_app_script(
@@ -54,15 +55,15 @@ if(BUILD_EXAMPLES)
 			if(NOT android_openssl_POPULATED)
 				FetchContent_Populate(android_openssl)
 				include(${android_openssl_SOURCE_DIR}/android_openssl.cmake)
-                                add_android_openssl_libraries(${example})
+				add_android_openssl_libraries(${example})
 			endif(NOT android_openssl_POPULATED)
 
 		endif(ANDROID)
-                if(EMSCRIPTEN OR ANDROID)
+		if(EMSCRIPTEN OR ANDROID)
 			target_link_libraries(${example} PRIVATE EstervDesigns::FlatControl Qt6::QuickControls2
 				$<$<STREQUAL:$<TARGET_PROPERTY:EstervDesigns::FlatControl,TYPE>,STATIC_LIBRARY>:EstervDesigns::FlatControlplugin>
 				)
 			target_compile_definitions(${example} PRIVATE FORCE_STYLE="Esterv.Controls.Flat")
-                endif(EMSCRIPTEN OR ANDROID)
+		endif(EMSCRIPTEN OR ANDROID)
 	endforeach()
 endif(BUILD_EXAMPLES)
