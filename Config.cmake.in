@@ -1,5 +1,5 @@
 @PACKAGE_INIT@
 include(CMakeFindDependencyMacro)
 find_dependency(Qt6 REQUIRED COMPONENTS Core Gui Quick CONFIG)
-find_dependency(EstervDesigns 1.1 REQUIRED COMPONENTS SimpleStyle CustomControls CONFIG)
+find_dependency(EstervDesigns 1.2 REQUIRED COMPONENTS SimpleStyle CustomControls CONFIG)
 include ( "${CMAKE_CURRENT_LIST_DIR}/DTPickersQML-config.cmake" )

@@ -5,7 +5,7 @@ include(FetchContent)
 FetchContent_Declare(
 	ccommon
 	GIT_REPOSITORY https://github.com/EddyTheCo/Common.git
-	GIT_TAG v0.1.1
+	GIT_TAG v0.3.0
 	)
 FetchContent_MakeAvailable(ccommon)
 version_from_git(
@@ -25,8 +25,8 @@ include(GNUInstallDirs)
 FetchContent_Declare(
 	EstervDesigns
 	GIT_REPOSITORY https://github.com/EddyTheCo/MyDesigns.git
-        GIT_TAG v1.1.1
-	FIND_PACKAGE_ARGS 1.1 COMPONENTS SimpleStyle CustomControls CONFIG
+	GIT_TAG v1.2.0
+	FIND_PACKAGE_ARGS 1.2 COMPONENTS SimpleStyle CustomControls CONFIG
 	)
 FetchContent_MakeAvailable(EstervDesigns)
 
@@ -47,11 +47,12 @@ if (Qt6_FOUND)
 		OUTPUT_TARGETS out_targets_var
 		OUTPUT_DIRECTORY
 		${CMAKE_BINARY_DIR}/Esterv/CustomControls/DateTimePickers
-		IMPORT_PATH ${CMAKE_BINARY_DIR} ${CMAKE_INSTALL_LIBDIR}
+		IMPORT_PATH ${CMAKE_BINARY_DIR} 
 		IMPORTS QtQuick.Layouts
 		)
 
 	add_library(${PROJECT_NAME}::DTPickers ALIAS DTPickers)
+	set_target_properties(DTPickers PROPERTIES VERSION ${VERSION} SOVERSION ${VERSION_MAJOR})
 	add_library(${PROJECT_NAME}::DTPickersplugin ALIAS DTPickersplugin)
 
 	qt6_add_shaders(DTPickers "esterVtech.com.imports.DTPickers.shaders"
@@ -88,38 +89,13 @@ if (Qt6_FOUND)
 		COMPONENT DTPickers
 		)
 
-	install(EXPORT ${PROJECT_NAME}-config
-		DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAME}
-		NAMESPACE ${PROJECT_NAME}::
-		COMPONENT ${PROJECT_NAME}
-		)
-	include(CMakePackageConfigHelpers)
-	configure_package_config_file(${CMAKE_CURRENT_SOURCE_DIR}/Config.cmake.in
-		"${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}Config.cmake"
-		INSTALL_DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAME}
-		)
-	write_basic_package_version_file(
-		"${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}ConfigVersion.cmake"
-		VERSION ${VERSION}
-		COMPATIBILITY SameMajorVersion
-		)
-	install(FILES
-		${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}Config.cmake
-		${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}ConfigVersion.cmake
-		DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAME}
-		)
-	export(EXPORT ${PROJECT_NAME}-config
-		FILE "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}-config.cmake"
-		)
+	build_exports()
 	if(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME)
 		add_subdirectory(examples)
-		set(CPACK_PACKAGE_CONTACT "estervtech")
-		set(CPACK_PACKAGE_FILE_NAME "${PROJECT_NAME}-v${SEMVER}-${CMAKE_SYSTEM_NAME}_${CMAKE_SYSTEM_VERSION}-${CMAKE_SYSTEM_PROCESSOR}-${CMAKE_CXX_COMPILER_ID}")
-		include(CPack)
+		build_cpack()
 	endif()
 endif()
 
 if(BUILD_DOCS)
-	get_target_property(build_docs cmake_build_docs SOURCES)
-	include(${build_docs})
+	build_docs()
 endif()
