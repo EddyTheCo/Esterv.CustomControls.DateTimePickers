@@ -1,5 +1,7 @@
 # Date and Time pickers types for QML 
 
+[TOC]
+
 This repo creates a QML module with custom types for date and  time selection.
 Ideally, the types should look like [these](https://mui.com/x/react-date-pickers/date-time-picker/).
 
@@ -53,13 +55,15 @@ Just add to your project CMakeLists.txt
 FetchContent_Declare(
         DTPickersQML
         GIT_REPOSITORY https://github.com/EddyTheCo/DateTimePickers.git
-	GIT_TAG v0.1.1 
-        FIND_PACKAGE_ARGS 0.1 CONFIG
+	GIT_TAG vMAJOR.MINOR.PATCH 
+	FIND_PACKAGE_ARGS MAJOR.MINOR CONFIG  
     )
 FetchContent_MakeAvailable(DTPickersQML)
-target_link_libraries(yourAppTarget PRIVATE DTPickersQML::DTPickers 
-$<$<STREQUAL:$<TARGET_PROPERTY:DTPickersQML::DTPickers,TYPE>,STATIC_LIBRARY>:DTPickersQML::DTPickersplugin>
-)
+target_link_libraries(<target> <PRIVATE|PUBLIC|INTERFACE> DTPickersQML::DTPickers) 
+```
+If want to use the QML module also add
+```
+target_link_libraries(<target> <PRIVATE|PUBLIC|INTERFACE> $<$<STREQUAL:$<TARGET_PROPERTY:DTPickersQML::DTPickers,TYPE>,STATIC_LIBRARY>:DTPickersQML::DTPickersplugin>)
 ```
 
 Then you have to add to your [QML IMPORT PATH](https://doc.qt.io/qt-6/qtqml-syntax-imports.html) the `qrc:/esterVtech.com/imports` path.
