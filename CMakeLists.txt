@@ -25,8 +25,8 @@ include(GNUInstallDirs)
 FetchContent_Declare(
 	EstervDesigns
 	GIT_REPOSITORY https://github.com/EddyTheCo/MyDesigns.git
-	GIT_TAG v1.2.0
-	FIND_PACKAGE_ARGS 1.2 COMPONENTS SimpleStyle CustomControls CONFIG
+	GIT_TAG develop
+	FIND_PACKAGE_ARGS 1.2 COMPONENTS SimpleStyle CustomControls Controls CONFIG
 	)
 FetchContent_MakeAvailable(EstervDesigns)
 
@@ -76,6 +76,7 @@ if (Qt6_FOUND)
 		EXPORT ${PROJECT_NAME}-config
 		DESTINATION ${CMAKE_INSTALL_LIBDIR}
 		COMPONENT DTPickers
+		RUNTIME DESTINATION "${CMAKE_INSTALL_BINDIR}" COMPONENT DTPickers
 		)
 
 	install(DIRECTORY ${CMAKE_BINARY_DIR}/Esterv/CustomControls/DateTimePickers
@@ -87,6 +88,7 @@ if (Qt6_FOUND)
 		EXPORT ${PROJECT_NAME}-config
 		DESTINATION ${CMAKE_INSTALL_LIBDIR}/Esterv/CustomControls/DateTimePickers
 		COMPONENT DTPickers
+		RUNTIME DESTINATION "${CMAKE_INSTALL_BINDIR}" COMPONENT DTPickers
 		)
 
 	build_exports()
