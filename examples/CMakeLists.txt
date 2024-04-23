@@ -1,7 +1,7 @@
 if(BUILD_EXAMPLES)
+	include(InstallRequiredSystemLibraries)
 	if(EMSCRIPTEN OR ANDROID)
 		find_package(Qt6 REQUIRED COMPONENTS QuickControls2)
-		find_package(EstervDesigns 0.4 REQUIRED COMPONENTS Controls CONFIG )
 	endif(EMSCRIPTEN OR ANDROID)
 
 	foreach(example "datepickerExample"
