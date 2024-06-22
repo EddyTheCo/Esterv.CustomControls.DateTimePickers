@@ -88,7 +88,7 @@ Item {
                 if (Math.pow(mouse.x - watchface.width * 0.5, 2.0) + Math.pow(mouse.y - watchface.width * 0.5, 2.0) < Math.pow(watchface.width * 0.5, 2.0)) {
                     if (watchface.isHourSelection) {
                         watchface.selAngleHour = 90 + 180 * (Math.atan((mouse.y - watchface.width * 0.5) / (mouse.x - watchface.width * 0.5)) / Math.PI) + ((mouse.x - watchface.width * 0.5 < 0) ? 180 : 0);
-                        control.hour = Math.round(12.0 * watchface.selAngleHour / 360.0) % 12;
+                        control.hour = Math.round(12.0 * watchface.selAngleHour / 360.0) % 12 + ((ambutt.enabled)?12:0);
                         watchface.isHourSelection = false;
                     } else {
                         watchface.selAngleMinute = 90 + 180 * (Math.atan((mouse.y - watchface.width * 0.5) / (mouse.x - watchface.width * 0.5)) / Math.PI) + ((mouse.x - watchface.width * 0.5 < 0) ? 180 : 0);
