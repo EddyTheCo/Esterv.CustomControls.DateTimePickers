@@ -67,8 +67,8 @@ Item {
                 required property int index
                 width: Math.tan(0.261799388) * watchface.width * 0.5 / (1.0 + Math.tan(0.261799388))
                 height: width
-                x: (watchface.width - width) * (1.0 + Math.sin(index * Math.PI / 6.0)) * 0.5
-                y: (watchface.width - width) * (1.0 - Math.cos(index * Math.PI / 6.0)) * 0.5
+                x:0.01*watchface.width + (0.98*watchface.width - width) * (1.0 + Math.sin(index * Math.PI / 6.0)) * 0.5
+                y:0.01*watchface.width + (0.98*watchface.width - width) * (1.0 - Math.cos(index * Math.PI / 6.0)) * 0.5
                 Label {
                     color: Style.frontColor1
                     verticalAlignment: Text.AlignVCenter
@@ -80,6 +80,22 @@ Item {
                     fontSizeMode: Text.Fit
                     font.pixelSize: 80
                 }
+            }
+        }
+        Repeater {
+            id: timethicks
+            model: 60
+            anchors.centerIn: watchface
+            delegate: Rectangle {
+                id: timethick
+                required property int index
+                antialiasing: true
+                color: Style.frontColor1
+                width: (0.01  + ((index%5)?0:0.01))* watchface.width
+                height: width*0.5
+                x: (watchface.width - width) * (1.0 + Math.sin(index * Math.PI / 30.0)) * 0.5
+                y: (watchface.width - width) * (1.0 - Math.cos(index * Math.PI / 30.0)) * 0.5
+                rotation: 90 + index*6
             }
         }
         MouseArea {
