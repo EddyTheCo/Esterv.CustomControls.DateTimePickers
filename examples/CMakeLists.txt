@@ -28,8 +28,8 @@ if(BUILD_EXAMPLES)
 			WIN32_EXECUTABLE ON
 			MACOSX_BUNDLE ON
 			)
-		install(TARGETS ${example} COMPONENT examples
-			BUNDLE  DESTINATION . COMPONENT examples
+		install(TARGETS ${example} COMPONENT ${PROJECT_NAME}-examples
+			BUNDLE  DESTINATION . COMPONENT ${PROJECT_NAME}-examples
 			LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
 			)
 		if(QTDEPLOY)
@@ -37,7 +37,7 @@ if(BUILD_EXAMPLES)
 				TARGET ${example}
 				OUTPUT_SCRIPT deploy_script
 				)
-			install(SCRIPT ${deploy_script} COMPONENT examples)
+			install(SCRIPT ${deploy_script} COMPONENT ${PROJECT_NAME}-examples)
 		endif(QTDEPLOY)
 		if(ANDROID)
 			set_property(TARGET ${example} APPEND PROPERTY QT_ANDROID_MIN_SDK_VERSION 30)

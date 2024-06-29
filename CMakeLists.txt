@@ -5,7 +5,7 @@ include(FetchContent)
 FetchContent_Declare(
 	ccommon
 	GIT_REPOSITORY https://github.com/EddyTheCo/Common.git
-	GIT_TAG v0.4.0
+	GIT_TAG v0.4.1
 	)
 FetchContent_MakeAvailable(ccommon)
 version_from_git(
@@ -75,20 +75,20 @@ if (Qt6_FOUND)
 	install(TARGETS ${out_targets_var} ${out_targets_var2}  DTPickers
 		EXPORT ${PROJECT_NAME}-config
 		DESTINATION ${CMAKE_INSTALL_LIBDIR}
-		COMPONENT DTPickers
-		RUNTIME DESTINATION "${CMAKE_INSTALL_BINDIR}" COMPONENT DTPickers
+		COMPONENT ${PROJECT_NAME}
+		RUNTIME DESTINATION "${CMAKE_INSTALL_BINDIR}" COMPONENT ${PROJECT_NAME}
 		)
 
 	install(DIRECTORY ${CMAKE_BINARY_DIR}/Esterv/CustomControls/DateTimePickers
 		DESTINATION ${CMAKE_INSTALL_LIBDIR}/Esterv/CustomControls
-		COMPONENT DTPickers
+		COMPONENT ${PROJECT_NAME}
 		)
 
 	install(TARGETS DTPickersplugin
 		EXPORT ${PROJECT_NAME}-config
 		DESTINATION ${CMAKE_INSTALL_LIBDIR}/Esterv/CustomControls/DateTimePickers
-		COMPONENT DTPickers
-		RUNTIME DESTINATION "${CMAKE_INSTALL_BINDIR}" COMPONENT DTPickers
+		COMPONENT ${PROJECT_NAME} 
+		RUNTIME DESTINATION "${CMAKE_INSTALL_BINDIR}" COMPONENT ${PROJECT_NAME}
 		)
 
 	build_exports()
