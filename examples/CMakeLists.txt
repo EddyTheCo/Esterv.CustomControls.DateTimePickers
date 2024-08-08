@@ -58,8 +58,8 @@ if(BUILD_EXAMPLES)
 
 		endif(ANDROID)
 		if(EMSCRIPTEN OR ANDROID)
-			target_link_libraries(${example} PRIVATE EstervDesigns::FlatControl Qt6::QuickControls2
-				$<$<STREQUAL:$<TARGET_PROPERTY:EstervDesigns::FlatControl,TYPE>,STATIC_LIBRARY>:EstervDesigns::FlatControlplugin>
+			target_link_libraries(${example} PRIVATE Esterv::FlatControl Qt6::QuickControls2
+				$<$<STREQUAL:$<TARGET_PROPERTY:Esterv::FlatControl,TYPE>,STATIC_LIBRARY>:Esterv::FlatControlplugin>
 				)
 			target_compile_definitions(${example} PRIVATE FORCE_STYLE="Esterv.Controls.Flat")
 		endif(EMSCRIPTEN OR ANDROID)

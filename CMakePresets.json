@@ -1,0 +1,151 @@
+{
+  "version": 6,
+  "configurePresets": [
+    {
+      "name": "default-release",
+      "displayName": "Default Release",
+      "description": "Release Static library using Ninja generator",
+      "generator": "Ninja",
+      "binaryDir": "${sourceDir}/build/release",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release",
+	"REPO_URL":"https://eddytheco.github.io/Esterv.CustomControls.DateTimePickers"
+      }
+    },
+    {
+      "name": "default-release-shared",
+      "displayName": "Default Release Shared",
+      "description": "Release Shared library using Ninja generator",
+      "generator": "Ninja",
+      "inherits": "default-release",
+      "cacheVariables": {
+	"BUILD_SHARED_LIBS":"ON" 
+      }
+    },
+    {
+      "name": "default-develop",
+      "displayName": "Default Config for development",
+      "description": "Debug build type using Ninja generator",
+      "generator": "Ninja",
+      "inherits": "default-release",
+      "binaryDir": "${sourceDir}/build/debug",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Debug",
+	"BUILD_DOCS":"ON",
+	"BUILD_EXAMPLES":"ON",
+	"QTDEPLOY":"ON"
+      }
+    }
+  ],
+  "buildPresets": [
+    {
+      "name": "default-release",
+      "configurePreset": "default-release"
+    },
+    {
+      "name": "default-release-shared",
+      "configurePreset": "default-release-shared"
+    },
+    {
+      "name": "default-develop",
+      "configurePreset": "default-develop"
+    },
+    {
+      "name": "default-documentation",
+      "configurePreset": "default-develop",
+      "targets":"doxygen_docs"
+
+    }
+  ],
+  "workflowPresets": [
+    {
+      "name": "default-release",
+      "steps": [
+        {
+          "type": "configure",
+          "name": "default-release"
+        },
+        {
+          "type": "build",
+          "name": "default-release"
+        }
+      ]
+    },
+    {
+      "name": "default-release-shared",
+      "steps": [
+        {
+          "type": "configure",
+          "name": "default-release-shared"
+        },
+        {
+          "type": "build",
+          "name": "default-release-shared"
+        }
+      ]
+    },
+    {
+      "name": "default-documentation",
+      "steps": [
+        {
+          "type": "configure",
+          "name": "default-develop"
+        },
+        {
+          "type": "build",
+          "name": "default-documentation"
+        }
+      ]
+    },
+    {
+      "name": "default-develop",
+      "steps": [
+        {
+          "type": "configure",
+          "name": "default-develop"
+        },
+        {
+          "type": "build",
+          "name": "default-develop"
+        }
+      ]
+    }
+  ],
+  "packagePresets": [
+    {
+      "name": "default-release",
+      "description": "Release runtime components",
+      "configurePreset": "default-release",
+      "generators": [
+        "IFW","TGZ"
+      ],
+      "variables": {
+	      "CPACK_ARCHIVE_COMPONENT_INSTALL":"ON",
+	      "CPACK_PACKAGE_CONTACT":"estervtech@gmail.com",
+	      "CPACK_PACKAGE_VENDOR":"estervtech",
+	      "CPACK_COMPONENTS_ALL": "EstervDTPickers;EstervDTPickers-qml",
+	      "CPACK_COMPONENTS_GROUPING":"ALL_COMPONENTS_IN_ONE"
+      },
+      "packageDirectory": "packages"
+    },
+    {
+      "name": "default-release-shared",
+      "description": "Release runtime components(shared libraries)",
+      "inherits":"default-release",
+      "configurePreset": "default-release-shared"
+    },
+    {
+      "name": "default-develop",
+      "description": "Release development components",
+      "configurePreset": "default-develop",
+      "inherits":"default-release",
+      "generators": [
+        "IFW","TGZ"
+      ],
+      "variables": {
+	      "CPACK_COMPONENTS_ALL": "EstervDTPickers;EstervDTPickers-qml;EstervDTPickers-examples;EstervDTPickers-dev"
+      }
+    }
+  ]
+
+}

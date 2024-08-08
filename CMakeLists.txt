@@ -12,7 +12,7 @@ version_from_git(
 	LOG       OFF
 	TIMESTAMP "%Y%m%d%H%M%S"
 	)
-project(DTPickersQML VERSION ${VERSION} DESCRIPTION "Date Time QML pickers" LANGUAGES CXX)
+project(EstervDTPickers VERSION ${VERSION} DESCRIPTION "Date Time QML pickers" LANGUAGES CXX)
 
 
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
@@ -24,7 +24,7 @@ include(GNUInstallDirs)
 
 FetchContent_Declare(
 	EstervDesigns
-	GIT_REPOSITORY https://github.com/EddyTheCo/MyDesigns.git
+	GIT_REPOSITORY https://github.com/EddyTheCo/Esterv.Designs.git
 	GIT_TAG v1.2.1
 	FIND_PACKAGE_ARGS 1.2 COMPONENTS SimpleStyle CustomControls Controls CONFIG
 	)
@@ -51,9 +51,9 @@ if (Qt6_FOUND)
 		IMPORTS QtQuick.Layouts
 		)
 
-	add_library(${PROJECT_NAME}::DTPickers ALIAS DTPickers)
+	add_library(Esterv::DTPickers ALIAS DTPickers)
 	set_target_properties(DTPickers PROPERTIES VERSION ${VERSION} SOVERSION ${VERSION_MAJOR})
-	add_library(${PROJECT_NAME}::DTPickersplugin ALIAS DTPickersplugin)
+	add_library(Esterv::DTPickersplugin ALIAS DTPickersplugin)
 
 	qt6_add_shaders(DTPickers "esterVtech.com.imports.DTPickers.shaders"
 		BATCHABLE
@@ -67,9 +67,9 @@ if (Qt6_FOUND)
 		"frag/calendar.frag"
 		)
 
-        target_link_libraries(DTPickers PUBLIC Qt6::Gui Qt6::Quick Qt6::Core EstervDesigns::SimpleStyle EstervDesigns::CustomControls
-		$<$<STREQUAL:$<TARGET_PROPERTY:EstervDesigns::SimpleStyle,TYPE>,STATIC_LIBRARY>:EstervDesigns::SimpleStyleplugin>
-                $<$<STREQUAL:$<TARGET_PROPERTY:EstervDesigns::CustomControls,TYPE>,STATIC_LIBRARY>:EstervDesigns::CustomControlsplugin>
+        target_link_libraries(DTPickers PUBLIC Qt6::Gui Qt6::Quick Qt6::Core Esterv::SimpleStyle Esterv::CustomControls
+		$<$<STREQUAL:$<TARGET_PROPERTY:Esterv::SimpleStyle,TYPE>,STATIC_LIBRARY>:Esterv::SimpleStyleplugin>
+                $<$<STREQUAL:$<TARGET_PROPERTY:Esterv::CustomControls,TYPE>,STATIC_LIBRARY>:Esterv::CustomControlsplugin>
 		)
 
 	install(TARGETS ${out_targets_var} ${out_targets_var2}  DTPickers
@@ -81,14 +81,14 @@ if (Qt6_FOUND)
 
 	install(DIRECTORY ${CMAKE_BINARY_DIR}/Esterv/CustomControls/DateTimePickers
 		DESTINATION ${CMAKE_INSTALL_LIBDIR}/Esterv/CustomControls
-		COMPONENT ${PROJECT_NAME}
+		COMPONENT ${PROJECT_NAME}-qml
 		)
 
 	install(TARGETS DTPickersplugin
 		EXPORT ${PROJECT_NAME}-config
 		DESTINATION ${CMAKE_INSTALL_LIBDIR}/Esterv/CustomControls/DateTimePickers
-		COMPONENT ${PROJECT_NAME} 
-		RUNTIME DESTINATION "${CMAKE_INSTALL_BINDIR}" COMPONENT ${PROJECT_NAME}
+		COMPONENT ${PROJECT_NAME}-qml 
+		RUNTIME DESTINATION "${CMAKE_INSTALL_BINDIR}" COMPONENT ${PROJECT_NAME}-qml
 		)
 
 	build_exports()
