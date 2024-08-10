@@ -1,11 +1,11 @@
-# Date and Time pickers types for QML 
+# Esterv.CustomControls.DateTimePickers 
 
 [TOC]
 
 This repo creates a QML module with custom types for date and  time selection.
 Ideally, the types should look like [these](https://mui.com/x/react-date-pickers/date-time-picker/).
 
-The types should be style-independent, but the colors used rely on the [EstervDesigns](https://github.com/EddyTheCo/MyDesigns)
+The types should be style-independent, but the colors used rely on the [EstervDesigns](https://github.com/EddyTheCo/Esterv.Designs)
 Simple style. 
 If you want to change the colors in your top QML file you can do
 ```
@@ -26,26 +26,11 @@ Style.backColor3= ...
 
 ``` 
 
-## Installing the module 
+## Configure, build, test, package ...
+ 
+The project uses [CMake presets](https://cmake.org/cmake/help/latest/manual/cmake-presets.7.html) as a way to share CMake configurations.
+Refer to [cmake](https://cmake.org/cmake/help/latest/manual/cmake.1.html), [ctest](https://cmake.org/cmake/help/latest/manual/ctest.1.html) and [cpack](https://cmake.org/cmake/help/latest/manual/cpack.1.html) documentation for more information on the use of presets.
 
-### From source code
-```
-git clone https://github.com/EddyTheCo/DateTimePickers.git 
-
-mkdir build
-cd build
-qt-cmake -G Ninja -DCMAKE_INSTALL_PREFIX=installDir -DCMAKE_BUILD_TYPE=Release -DQTDEPLOY=OFF -DBUILD_EXAMPLES=OFF -DBUILD_DOCS=OFF ../DateTimePickers
-
-cmake --build . 
-
-cmake --install . 
-```
-where `installDir` is the installation path, `QTDEPLOY` install the examples and Qt dependencies using the  [cmake-deployment-api](https://www.qt.io/blog/cmake-deployment-api).
-One can choose to build or not the example and the documentation with the `BUILD_EXAMPLES` and `BUILD_DOCS` variables.
-
-
-### From GitHub releases
-Download the releases from this repo. 
 
 ## Using the module in your CMake project 
 
@@ -53,17 +38,17 @@ Just add to your project CMakeLists.txt
 
 ```
 FetchContent_Declare(
-        DTPickersQML
-        GIT_REPOSITORY https://github.com/EddyTheCo/DateTimePickers.git
+        EstervDTPickers
+        GIT_REPOSITORY https://github.com/EddyTheCo/Esterv.CustomControls.DateTimePickers.git
 	GIT_TAG vMAJOR.MINOR.PATCH 
 	FIND_PACKAGE_ARGS MAJOR.MINOR CONFIG  
     )
-FetchContent_MakeAvailable(DTPickersQML)
-target_link_libraries(<target> <PRIVATE|PUBLIC|INTERFACE> DTPickersQML::DTPickers) 
+FetchContent_MakeAvailable(EstervDTPickers)
+target_link_libraries(<target> <PRIVATE|PUBLIC|INTERFACE> Esterv::DTPickers) 
 ```
 If want to use the QML module also add
 ```
-target_link_libraries(<target> <PRIVATE|PUBLIC|INTERFACE> $<$<STREQUAL:$<TARGET_PROPERTY:DTPickersQML::DTPickers,TYPE>,STATIC_LIBRARY>:DTPickersQML::DTPickersplugin>)
+target_link_libraries(<target> <PRIVATE|PUBLIC|INTERFACE> $<$<STREQUAL:$<TARGET_PROPERTY:Esterv::DTPickers,TYPE>,STATIC_LIBRARY>:Esterv::DTPickersplugin>)
 ```
 
 Then you have to add to your [QML IMPORT PATH](https://doc.qt.io/qt-6/qtqml-syntax-imports.html) the `qrc:/esterVtech.com/imports` path.
@@ -80,6 +65,13 @@ The [examples](examples) folder shows the use of the different custom types prov
 
 One can also play with the types [here](https://eddytheco.github.io/qmlonline/?example_url=dtpickers)
 
+
+## API reference
+
+You can read the [API reference](https://eddytheco.github.io/Esterv.CustomControls.DateTimePickers/), or generate it yourself like
+```
+cmake --workflow --preset default-documentation
+```
 
 ## Contributing
 
