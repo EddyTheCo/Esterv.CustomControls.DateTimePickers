@@ -4,14 +4,14 @@ if(BUILD_EXAMPLES)
     find_package(Qt6 REQUIRED COMPONENTS QuickControls2)
   endif(EMSCRIPTEN OR ANDROID)
 
-  foreach(example "datepickerExample" "timepickerExample"
-                  "datetimepickerExample")
+  foreach(example "Datepicker" "Timepicker"
+		  "Datetimepicker")
     qt_add_executable(${example} ${example}.cpp)
 
     qt6_add_qml_module(
       ${example}
       URI
-      E${example}
+      Examples${example}
       VERSION
       1.0
       QML_FILES
@@ -37,7 +37,7 @@ if(BUILD_EXAMPLES)
       TARGETS ${example}
       COMPONENT ${PROJECT_NAME}-examples
       BUNDLE DESTINATION . COMPONENT ${PROJECT_NAME}-examples
-      LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR})
+      LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR} COMPONENT ${PROJECT_NAME}-examples)
     if(QTDEPLOY)
       qt_generate_deploy_qml_app_script(TARGET ${example} OUTPUT_SCRIPT
                                         deploy_script)
