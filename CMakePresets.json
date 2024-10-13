@@ -13,27 +13,24 @@
       }
     },
     {
-      "name": "default-release-shared",
-      "displayName": "Default Release Shared",
-      "description": "Release Shared library using Ninja generator",
-      "generator": "Ninja",
-      "inherits": "default-release",
-      "cacheVariables": {
-        "BUILD_SHARED_LIBS": "ON"
-      }
-    },
-    {
       "name": "default-develop",
-      "displayName": "Default Config for development",
-      "description": "Debug build type using Ninja generator",
-      "generator": "Ninja",
+      "displayName": "Default Config for development(Release)",
+      "description": "Release build type using Ninja generator, add tests and docs",
       "inherits": "default-release",
-      "binaryDir": "${sourceDir}/build/debug",
       "cacheVariables": {
-        "CMAKE_BUILD_TYPE": "Debug",
         "BUILD_DOCS": "ON",
         "BUILD_EXAMPLES": "ON",
         "QTDEPLOY": "ON"
+      }
+    },
+    {
+      "name": "default-develop-debug",
+      "displayName": "Default Config for development(Debug)",
+      "description": "Debug build type using Ninja generator",
+      "inherits": "default-develop",
+      "binaryDir": "${sourceDir}/build/debug",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Debug"
       }
     }
   ],
@@ -43,17 +40,22 @@
       "configurePreset": "default-release"
     },
     {
-      "name": "default-release-shared",
-      "configurePreset": "default-release-shared"
-    },
-    {
       "name": "default-develop",
       "configurePreset": "default-develop"
+    },
+    {
+      "name": "default-develop-debug",
+      "configurePreset": "default-develop-debug"
     },
     {
       "name": "default-documentation",
       "configurePreset": "default-develop",
       "targets": "doxygen_docs"
+    },
+    {
+      "name": "default-qmllint",
+      "configurePreset": "default-develop",
+      "targets": "all_qmllint_json"
     }
   ],
   "workflowPresets": [
@@ -71,15 +73,15 @@
       ]
     },
     {
-      "name": "default-release-shared",
+      "name": "default-develop",
       "steps": [
         {
           "type": "configure",
-          "name": "default-release-shared"
+          "name": "default-develop"
         },
         {
           "type": "build",
-          "name": "default-release-shared"
+          "name": "default-develop"
         }
       ]
     },
@@ -97,7 +99,7 @@
       ]
     },
     {
-      "name": "default-develop",
+      "name": "default-qmllint",
       "steps": [
         {
           "type": "configure",
@@ -105,7 +107,20 @@
         },
         {
           "type": "build",
-          "name": "default-develop"
+          "name": "default-qmllint"
+        }
+      ]
+    },
+    {
+      "name": "default-develop-debug",
+      "steps": [
+        {
+          "type": "configure",
+          "name": "default-develop-debug"
+        },
+        {
+          "type": "build",
+          "name": "default-develop-debug"
         }
       ]
     }
@@ -121,31 +136,26 @@
       ],
       "variables": {
         "CPACK_ARCHIVE_COMPONENT_INSTALL": "ON",
-        "CPACK_PACKAGE_CONTACT": "estervtech@gmail.com",
-        "CPACK_PACKAGE_VENDOR": "estervtech",
         "CPACK_COMPONENTS_ALL": "EstervDTPickers;EstervDTPickers-qml",
-        "CPACK_COMPONENTS_GROUPING": "ALL_COMPONENTS_IN_ONE"
+        "CPACK_PACKAGE_CONTACT": "estervtech@gmail.com",
+        "CPACK_PACKAGE_VENDOR": "estervtech"
       },
       "packageDirectory": "packages"
-    },
-    {
-      "name": "default-release-shared",
-      "description": "Release runtime components(shared libraries)",
-      "inherits": "default-release",
-      "configurePreset": "default-release-shared"
     },
     {
       "name": "default-develop",
       "description": "Release development components",
       "configurePreset": "default-develop",
-      "inherits": "default-release",
       "generators": [
         "IFW",
         "TGZ"
       ],
       "variables": {
-        "CPACK_COMPONENTS_ALL": "EstervDTPickers;EstervDTPickers-qml;EstervDTPickers-examples;EstervDTPickers-dev"
-      }
+	"CPACK_COMPONENTS_GROUPING": "ALL_COMPONENTS_IN_ONE",
+        "CPACK_PACKAGE_CONTACT": "estervtech@gmail.com",
+        "CPACK_PACKAGE_VENDOR": "estervtech"
+      },
+      "packageDirectory": "packages-dev"
     }
   ]
 }

@@ -1,4 +1,4 @@
-# Esterv.CustomControls.DateTimePickers 
+# Esterv.CustomControls.DateTimePickers
 
 [TOC]
 
@@ -16,12 +16,12 @@ Component.onCompleted:
 {
 Style.frontColor1= (Style.theme)?LightThemeColor:DarkThemeColor//Like control.palette.text
 
-Style.frontColor2= ... 
-Style.frontColor3= ... 
+Style.frontColor2= ...
+Style.frontColor3= ...
 
-Style.backColor1= ... 
-Style.backColor2= ... 
-Style.backColor3= ... 
+Style.backColor1= ...
+Style.backColor2= ...
+Style.backColor3= ...
 }
 
 ``` 
@@ -32,7 +32,7 @@ The project uses [CMake presets](https://cmake.org/cmake/help/latest/manual/cmak
 Refer to [cmake](https://cmake.org/cmake/help/latest/manual/cmake.1.html), [ctest](https://cmake.org/cmake/help/latest/manual/ctest.1.html) and [cpack](https://cmake.org/cmake/help/latest/manual/cpack.1.html) documentation for more information on the use of presets.
 
 
-## Using the module in your CMake project 
+## Using the module in your CMake project
 
 Just add to your project CMakeLists.txt
 
@@ -40,8 +40,8 @@ Just add to your project CMakeLists.txt
 FetchContent_Declare(
         EstervDTPickers
         GIT_REPOSITORY https://github.com/EddyTheCo/Esterv.CustomControls.DateTimePickers.git
-	GIT_TAG vMAJOR.MINOR.PATCH 
-	FIND_PACKAGE_ARGS MAJOR.MINOR CONFIG  
+	GIT_TAG vMAJOR.MINOR.PATCH
+	FIND_PACKAGE_ARGS MAJOR.MINOR COMPONENTS DTPickers CONFIG
     )
 FetchContent_MakeAvailable(EstervDTPickers)
 target_link_libraries(<target> <PRIVATE|PUBLIC|INTERFACE> Esterv::DTPickers) 

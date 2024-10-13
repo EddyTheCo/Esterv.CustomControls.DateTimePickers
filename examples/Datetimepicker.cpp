@@ -10,15 +10,11 @@ int main(int argc, char *argv[]) {
 #if defined(FORCE_STYLE)
   QQuickStyle::setStyle(FORCE_STYLE);
 #endif
-
   QQmlApplicationEngine engine;
 
   engine.addImportPath("qrc:/esterVtech.com/imports");
 
-  const QUrl url = QUrl("qrc:/esterVtech.com/imports/EdatepickerExample/qml/"
-                        "datepickerExample.qml");
 
-  engine.load(url);
-
+  engine.loadFromModule("ExamplesDatetimepicker", "Datetimepicker");
   return app.exec();
 }
