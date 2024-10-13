@@ -1,11 +1,13 @@
 cmake_minimum_required(VERSION 3.24)
+
+option(BUILD_EXAMPLES "Build the examples" OFF)
 include(${CMAKE_CURRENT_BINARY_DIR}/local_conf.cmake OPTIONAL)
 
 include(FetchContent)
 FetchContent_Declare(
   ccommon
   GIT_REPOSITORY https://github.com/EddyTheCo/Common.git
-  GIT_TAG main)
+  GIT_TAG ndk26)
 FetchContent_MakeAvailable(ccommon)
 version_from_git(LOG OFF TIMESTAMP "%Y%m%d%H%M%S")
 project(
@@ -26,7 +28,7 @@ FetchContent_Declare(
   GIT_REPOSITORY https://github.com/EddyTheCo/Esterv.Designs.git
   GIT_TAG develop
   FIND_PACKAGE_ARGS
-  1.2
+  2
   COMPONENTS
   SimpleStyle
   CustomControls
@@ -94,9 +96,9 @@ if(Qt6_FOUND)
   install(
     TARGETS ${out_targets_var} ${out_targets_var2} DTPickers
     EXPORT ${PROJECT_NAME}-config
-    DESTINATION ${CMAKE_INSTALL_LIBDIR}
     COMPONENT ${PROJECT_NAME}
-    RUNTIME DESTINATION "${CMAKE_INSTALL_BINDIR}" COMPONENT ${PROJECT_NAME})
+ARCHIVE COMPONENT ${PROJECT_NAME}-dev
+    )
 
   install(
     DIRECTORY ${CMAKE_BINARY_DIR}/Esterv/CustomControls/DateTimePickers
@@ -108,7 +110,15 @@ if(Qt6_FOUND)
     EXPORT ${PROJECT_NAME}-config
     DESTINATION ${CMAKE_INSTALL_LIBDIR}/Esterv/CustomControls/DateTimePickers
     COMPONENT ${PROJECT_NAME}-qml
-    RUNTIME DESTINATION "${CMAKE_INSTALL_BINDIR}" COMPONENT ${PROJECT_NAME}-qml)
+ARCHIVE COMPONENT ${PROJECT_NAME}-dev
+   )
+
+  set(SET_COMPONENTS "")
+  foreach(component "DTPickers")
+if(TARGET "${component}")
+	string(APPEND SET_COMPONENTS "set(${PROJECT_NAME}_${component}_FOUND \"ON\")\n")
+  endif(TARGET "${component}")
+endforeach()
 
   build_exports()
   if(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME)
