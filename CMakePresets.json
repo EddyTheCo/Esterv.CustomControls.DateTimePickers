@@ -151,7 +151,7 @@
         "TGZ"
       ],
       "variables": {
-	"CPACK_COMPONENTS_GROUPING": "ALL_COMPONENTS_IN_ONE",
+        "CPACK_COMPONENTS_GROUPING": "ALL_COMPONENTS_IN_ONE",
         "CPACK_PACKAGE_CONTACT": "estervtech@gmail.com",
         "CPACK_PACKAGE_VENDOR": "estervtech"
       },

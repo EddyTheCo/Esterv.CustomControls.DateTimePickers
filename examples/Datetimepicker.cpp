@@ -14,7 +14,6 @@ int main(int argc, char *argv[]) {
 
   engine.addImportPath("qrc:/esterVtech.com/imports");
 
-
   engine.loadFromModule("ExamplesDatetimepicker", "Datetimepicker");
   return app.exec();
 }

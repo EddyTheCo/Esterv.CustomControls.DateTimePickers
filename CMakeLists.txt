@@ -97,8 +97,7 @@ if(Qt6_FOUND)
     TARGETS ${out_targets_var} ${out_targets_var2} DTPickers
     EXPORT ${PROJECT_NAME}-config
     COMPONENT ${PROJECT_NAME}
-ARCHIVE COMPONENT ${PROJECT_NAME}-dev
-    )
+    ARCHIVE COMPONENT ${PROJECT_NAME}-dev)
 
   install(
     DIRECTORY ${CMAKE_BINARY_DIR}/Esterv/CustomControls/DateTimePickers
@@ -110,15 +109,15 @@ ARCHIVE COMPONENT ${PROJECT_NAME}-dev
     EXPORT ${PROJECT_NAME}-config
     DESTINATION ${CMAKE_INSTALL_LIBDIR}/Esterv/CustomControls/DateTimePickers
     COMPONENT ${PROJECT_NAME}-qml
-ARCHIVE COMPONENT ${PROJECT_NAME}-dev
-   )
+    ARCHIVE COMPONENT ${PROJECT_NAME}-dev)
 
   set(SET_COMPONENTS "")
   foreach(component "DTPickers")
-if(TARGET "${component}")
-	string(APPEND SET_COMPONENTS "set(${PROJECT_NAME}_${component}_FOUND \"ON\")\n")
-  endif(TARGET "${component}")
-endforeach()
+    if(TARGET "${component}")
+      string(APPEND SET_COMPONENTS
+             "set(${PROJECT_NAME}_${component}_FOUND \"ON\")\n")
+    endif(TARGET "${component}")
+  endforeach()
 
   build_exports()
   if(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME)
