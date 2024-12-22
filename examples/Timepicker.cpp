@@ -4,9 +4,9 @@
 #if defined(FORCE_STYLE)
 #include <QQuickStyle>
 #endif
-
 int main(int argc, char *argv[]) {
   QGuiApplication app(argc, argv);
+
 #if defined(FORCE_STYLE)
   QQuickStyle::setStyle(FORCE_STYLE);
 #endif
@@ -14,10 +14,7 @@ int main(int argc, char *argv[]) {
 
   engine.addImportPath("qrc:/esterVtech.com/imports");
 
-  const QUrl url = QUrl("qrc:/esterVtech.com/imports/EdatetimepickerExample/"
-                        "qml/datetimepickerExample.qml");
-
-  engine.load(url);
+  engine.loadFromModule("ExamplesTimepicker", "Timepicker");
 
   return app.exec();
 }
