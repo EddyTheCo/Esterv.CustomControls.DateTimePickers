@@ -7,7 +7,7 @@ include(FetchContent)
 FetchContent_Declare(
   ccommon
   GIT_REPOSITORY https://github.com/EddyTheCo/Common.git
-  GIT_TAG ndk26)
+  GIT_TAG v0.5.0)
 FetchContent_MakeAvailable(ccommon)
 version_from_git(LOG OFF TIMESTAMP "%Y%m%d%H%M%S")
 project(
@@ -26,7 +26,7 @@ include(GNUInstallDirs)
 FetchContent_Declare(
   EstervDesigns
   GIT_REPOSITORY https://github.com/EddyTheCo/Esterv.Designs.git
-  GIT_TAG develop
+  GIT_TAG v2.0.0
   FIND_PACKAGE_ARGS
   2
   COMPONENTS
