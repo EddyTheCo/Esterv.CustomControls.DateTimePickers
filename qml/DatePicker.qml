@@ -14,8 +14,8 @@ Item {
     Component.onCompleted: {
         for (let i = 0; i < 200; i++) {
             yearmodel.append({
-                    "year": 1900 + i
-                });
+                "year": 1900 + i
+            });
         }
     }
 
@@ -216,8 +216,7 @@ Item {
         cellHeight: yearSelector.height * 0.1666667
 
         clip: true
-        ScrollBar.vertical: ScrollBar {
-        }
+        ScrollBar.vertical: ScrollBar {}
         delegate: RoundButton {
             required property int year
             width: yearSelector.cellWidth * 0.6
